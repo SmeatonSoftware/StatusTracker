@@ -3,3 +3,5 @@ mobile/%ProgramData%
 .vs
 mobile/android
 StatusTracker/obj
+packages
+StatusTracker/bin

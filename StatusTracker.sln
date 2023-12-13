@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusTracker", "StatusTracker\StatusTracker.csproj", "{A98F8FF3-DBA1-44EF-BE7F-34D1E4A98158}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIApp-Lib", "PISite\PIApp\PIApp-Lib.csproj", "{9465DE7D-E37C-49E2-8D1A-8568A8D353C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A98F8FF3-DBA1-44EF-BE7F-34D1E4A98158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A98F8FF3-DBA1-44EF-BE7F-34D1E4A98158}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A98F8FF3-DBA1-44EF-BE7F-34D1E4A98158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9465DE7D-E37C-49E2-8D1A-8568A8D353C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9465DE7D-E37C-49E2-8D1A-8568A8D353C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9465DE7D-E37C-49E2-8D1A-8568A8D353C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9465DE7D-E37C-49E2-8D1A-8568A8D353C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
