@@ -36,6 +36,12 @@
     <Reference Include="Jil, Version=2.17.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jil.2.17.0\lib\net45\Jil.dll</HintPath>
     </Reference>
+    <Reference Include="LiteDB, Version=5.0.17.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.5.0.17\lib\net45\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="LiteDB.Async, Version=0.1.7.0, Culture=neutral, PublicKeyToken=50ce414c90e8fc92, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.Async.0.1.7\lib\netstandard2.0\LiteDB.Async.dll</HintPath>
+    </Reference>
     <Reference Include="Sigil, Version=4.7.0.0, Culture=neutral, PublicKeyToken=2d06c3494341c8ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Sigil.4.7.0\lib\net45\Sigil.dll</HintPath>
     </Reference>
@@ -52,6 +58,11 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Consts.cs" />
+    <Compile Include="Controllers\Logger.cs" />
+    <Compile Include="Data\Classes\RequestLog.cs" />
+    <Compile Include="Data\DataClass.cs" />
+    <Compile Include="Data\DataEngine.cs" />
+    <Compile Include="Data\DataEngineManagement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,5 +76,6 @@
       <Name>PIApp-Lib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

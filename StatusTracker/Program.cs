@@ -1,4 +1,5 @@
 ﻿using PIApp_Lib;
+using StatusTracker.Controllers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,7 @@ namespace StatusTracker
                 Environment.Exit(0);
             }
 
-            //Listener.log = Logger.Log;
+            Listener.log = Logger.Log;
             //Listener.middlewares.Add(Logger.Log);
 
             //DataEngineMangment.Init();
@@ -30,7 +31,7 @@ namespace StatusTracker
 
         private static void RegisterEndpoints()
         {
-            //RequestRegistrar.Register(new RequestFunc("/api/status", "GET", Controllers.Info.Status, new TimeSpan(0, 0, 5)));
+            RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 0, 5)));
         }
 
         private static void Main(string[] args)
