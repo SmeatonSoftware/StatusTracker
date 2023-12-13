@@ -1,2 +1,5 @@
 ﻿mobile/.idea
 mobile/%ProgramData%
+.vs
+mobile/android
+StatusTracker/obj
