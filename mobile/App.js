@@ -4,6 +4,7 @@ import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
 import APIRequest from "./components/request";
+import axios from "axios";
 
 export default class App extends Component{
     constructor(props) {
@@ -12,33 +13,18 @@ export default class App extends Component{
         this.state = {smeatonStatus: {UpForMS: 0}};
     }
 
-    async componentDidMount() {
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.,
-            {
-                title: 'Cool Photo App Camera Permission',
-                message:
-                    'Cool Photo App needs access to your camera ' +
-                    'so you can take awesome pictures.',
-                buttonNeutral: 'Ask Me Later',
-                buttonNegative: 'Cancel',
-                buttonPositive: 'OK',
-            },
-        );
-
+    async getStatus() {
         let that = this;
         let r = new APIRequest("status", "", "GET")
 
         await r.executeWithCallback(
-            (d)=> {console.log(d)},
+            (d)=> {
+                that.setState({smeatonStatus: d.data});
+            },
             (d)=> {console.log(d)},
             true,
             {}
-        )
-
-        // console.log(d);
-        //
-        // that.setState({smeatonStatus: d.data});
+        );
     }
 
     render() {
@@ -46,7 +32,7 @@ export default class App extends Component{
             <View style={styles.container}>
                 <Text>Open up App.js to start working on your app!</Text>
                 <Padd>
-                    <Button title={"I Like DIICCK"} onPress={x => console.log("Hey There")}/>
+                    <Button title={"I Like DIICCK"} onPress={x => this.getStatus()}/>
                 </Padd>
 
                 <Padd>
