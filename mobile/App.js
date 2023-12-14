@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
 import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
@@ -29,28 +29,50 @@ export default class App extends Component{
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Open up App.js to start working on your app!</Text>
-                <Padd>
-                    <Button title={"I Like DIICCK"} onPress={x => this.getStatus()}/>
-                </Padd>
+            <View style={styles.outer}>
+                <View style={styles.container}>
+                    <Text>Open up App.js to start working on your app!</Text>
+                    <Text>Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?</Text>
+                    <Padd>
+                        <Button title={"I Like DIICCK"} onPress={x => this.getStatus()}/>
+                    </Padd>
 
-                <Padd>
-                    <ProgressBar progress={0.2}>%</ProgressBar>
-                </Padd>
+                    <Padd>
+                        <ProgressBar progress={0.2}>%</ProgressBar>
+                    </Padd>
 
-                <Text>{this.state.smeatonStatus.UpForMS}</Text>
-                <StatusBar style="auto"/>
+                    <Text>{this.state.smeatonStatus.UpForMS}</Text>
+                    {/*<StatusBar style="auto"/>*/}
+                </View>
             </View>
         );
     }
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const windowAspect =  windowWidth / windowHeight;
+const maxAspect = 16/(16+9);
+const tarAspect = Math.min(windowAspect, maxAspect);
+
 const styles = StyleSheet.create({
+    outer:{
+        flex: 1,
+        backgroundColor: '#565656',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+    //aspectRatio: tarAspect,
+      maxHeight: windowHeight,
+      maxWidth: windowHeight * tarAspect,
+      padding: 10,
+      overflowY: "scroll",
+
+},
 });
