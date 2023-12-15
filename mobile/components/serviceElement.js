@@ -20,7 +20,7 @@ export default class ServiceElement extends Component{
 
     async refreshLog(){
         let that = this;
-        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true", "", "GET")
+        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=50", "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -73,7 +73,7 @@ export default class ServiceElement extends Component{
             height = 50;
         }
 
-        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>
+        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text> </Text></View>
     }
 
     render() {
@@ -113,8 +113,9 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        minHeight: "100%",
-        height: "auto",
+        minHeight: 200
+        // minHeight: "100%",
+        // height: "auto",
         //paddingBottom: "35%"
     },
     graph:{
