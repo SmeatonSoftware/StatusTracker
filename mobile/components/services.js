@@ -25,8 +25,15 @@ export default class Services extends Component{
     }
 
     render() {
-        return <ScrollView>
+        return <ScrollView style={styles.body}>
             {this.state.services.map(x=><ServiceElement data={x} key={x.Id}/>)}
         </ScrollView>;
     }
 }
+
+const styles = StyleSheet.create({
+    body:{
+        height: "100%",
+        minWidth: "100%"
+    }
+});

@@ -52,11 +52,29 @@ export default class ServiceElement extends Component{
         await this.refreshLog();
     }
 
+    getBar(x, idx){
+        let height = x / this.state.pingStats.maxMs * 100;
+        let width = 1/this.state.pingLog.length*100;
+
+        let colour = "green";
+
+        if (height < 50)
+            colour = "orange"
+
+        if (x == -1)
+            colour = "red"
+
+        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>
+    }
+
     render() {
         let s = this.props.data;
         return <View style={styles.body}>
             <Text>{s.url}</Text>
             <Text>{this.state.pingStats.minMs}-{this.state.pingStats.avgMs}-{this.state.pingStats.maxMs}</Text>
+            <View style={styles.graph}>
+                {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
+            </View>
         </View>
     }
 }
@@ -65,7 +83,17 @@ const styles = StyleSheet.create({
     body:{
         flex: 1,
         alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center"
+        //justifyContent: "center",
+        alignItems: "center",
+        minWidth: "100%",
+        //minHeight: "100%"
+    },
+    graph:{
+        flex: 1,
+        alignItems: "flex-start",
+        minWidth: "100%",
+        backgroundColor: "#888",
+        flexDirection: "row",
+        minHeight: "100%"
     }
 });

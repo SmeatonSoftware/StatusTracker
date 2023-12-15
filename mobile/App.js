@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: "center",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        minWidth: "100%"
     }
 });

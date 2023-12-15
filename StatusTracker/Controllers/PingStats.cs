@@ -39,6 +39,8 @@ namespace StatusTracker.Controllers
 
             var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x=>x.Id).Limit(count).ToArrayAsync();
 
+            results = results.Reverse().ToArray();
+
             if (small)
             {
                 return new ResponseState()
