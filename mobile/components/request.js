@@ -1,4 +1,5 @@
-export const baseUrl = "https://smeatonsoftware.co.uk/api/";
+//export const baseUrl = "https://smeatonsoftware.co.uk/api/";
+export const baseUrl = "http://192.168.1.91:8080/api/";
 
 export default class APIRequest {
     constructor(path, body, method) {

@@ -106,7 +106,7 @@ namespace StatusTracker.Controllers
                 {
                     minMs = results.Min(x=>x.MS),
                     maxMs = results.Max(x=>x.MS),
-                    avgMs = results.Average(x=>x.MS),
+                    avgMs = (int)results.Average(x=>x.MS),
                     failures = results.Count(x=>!x.Success),
                     total = results.Length
                 }
