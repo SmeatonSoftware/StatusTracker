@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {ScrollView, View, Text, StyleSheet} from "react-native";
 import APIRequest from "./request";
+import Padd from "./padd";
 
 export default class ServiceElement extends Component{
     constructor(props) {
@@ -53,12 +54,14 @@ export default class ServiceElement extends Component{
     }
 
     getBar(x, idx){
-        let height = x / this.state.pingStats.maxMs * 100;
+        let msDiff = this.state.pingStats.maxMs - this.state.pingStats.minMs + 1;
+
+        let height = (x-this.state.pingStats.minMs + 1) / msDiff * 100;
         let width = 1/this.state.pingLog.length*100;
 
         let colour = "green";
 
-        if (height < 50)
+        if (height < 30)
             colour = "orange"
 
         if (x == -1)
@@ -71,7 +74,21 @@ export default class ServiceElement extends Component{
         let s = this.props.data;
         return <View style={styles.body}>
             <Text>{s.url}</Text>
-            <Text>{this.state.pingStats.minMs}-{this.state.pingStats.avgMs}-{this.state.pingStats.maxMs}</Text>
+            <View style={{flexDirection: "row", justifyContent: "space-evenly", alignSelf: "center"}}>
+                <Padd>
+                    <Text style={styles.text}>Min</Text>
+                    <Text style={styles.text}>{this.state.pingStats.minMs} MS</Text>
+                </Padd>
+                <Padd>
+                    <Text style={styles.text}>Avg</Text>
+                    <Text style={styles.text}>{this.state.pingStats.avgMs} MS</Text>
+                </Padd>
+                <Padd>
+                    <Text style={styles.text}>Max</Text>
+                    <Text style={styles.text}>{this.state.pingStats.maxMs} MS</Text>
+                </Padd>
+            </View>
+            <Text>Failures {this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
             </View>
@@ -80,6 +97,9 @@ export default class ServiceElement extends Component{
 }
 
 const styles = StyleSheet.create({
+    text:{
+        textAlign: "center"
+    },
     body:{
         flex: 1,
         alignSelf: "center",
@@ -88,7 +108,7 @@ const styles = StyleSheet.create({
         minWidth: "100%",
         //minHeight: "100%"
         height: "auto",
-        paddingBottom: "10%"
+        paddingBottom: "35%"
     },
     graph:{
         flex: 1,
@@ -96,6 +116,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#888",
         flexDirection: "row",
         minWidth: "100%",
-        minHeight: "100%"
+        minHeight: "200%"
     }
 });
