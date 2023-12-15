@@ -20,7 +20,7 @@ export default class ServiceElement extends Component{
 
     async refreshLog(){
         let that = this;
-        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=50", "", "GET")
+        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=20", "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -54,10 +54,16 @@ export default class ServiceElement extends Component{
     }
 
     getBar(x, idx){
-        let msDiff = (this.state.pingStats.maxMs + 20 - this.state.pingStats.minMs);
+        let log = this.state.pingLog;
 
-        let height = (x-this.state.pingStats.minMs + 10) / msDiff * 100;
-        let width = 1/this.state.pingLog.length*100;
+        console.log(log)
+
+        let msDiff = (Math.max(...log) + 20 - Math.min(...log));
+
+        console.log(msDiff)
+
+        let height = (x-Math.min(...log) + 10) / msDiff * 100;
+        let width = 1/log.length*100;
 
         let colour = "green";
 
@@ -73,7 +79,7 @@ export default class ServiceElement extends Component{
             height = 50;
         }
 
-        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text> </Text></View>
+        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>
     }
 
     render() {
