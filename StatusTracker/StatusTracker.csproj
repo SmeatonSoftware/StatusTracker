@@ -60,7 +60,7 @@
     <Compile Include="Consts.cs" />
     <Compile Include="Controllers\Logger.cs" />
     <Compile Include="Controllers\PingStats.cs" />
-    <Compile Include="Controllers\RegisterService.cs" />
+    <Compile Include="Controllers\Services.cs" />
     <Compile Include="Data\Classes\PingResult.cs" />
     <Compile Include="Data\Classes\RequestLog.cs" />
     <Compile Include="Data\Classes\TargetService.cs" />

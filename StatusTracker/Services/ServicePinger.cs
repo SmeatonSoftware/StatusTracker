@@ -21,7 +21,7 @@ namespace StatusTracker.Services
                 while (true)
                 {
                     PingAll();
-                    Thread.Sleep(30000);
+                    Thread.Sleep(60000);
                 }
             });
 

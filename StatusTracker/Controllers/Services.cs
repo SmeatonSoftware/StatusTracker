@@ -8,8 +8,19 @@ using System.Threading.Tasks;
 
 namespace StatusTracker.Controllers
 {
-    public static class RegisterService
+    public static class Services
     {
+        public static async Task<ResponseState> GetAll(RequestContext context)
+        {
+            var results = await DataEngineMangment.targetServiceEngine.table.FindAllAsync();
+
+            return new ResponseState()
+            {
+                message = "All Services",
+                data = results
+            };
+        }
+
         public static async Task<ResponseState> AddOrUpdate(RequestContext context)
         {
             var url = context.GetBody();
