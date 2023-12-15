@@ -54,14 +54,17 @@ export default class ServiceElement extends Component{
     }
 
     getBar(x, idx){
-        let msDiff = this.state.pingStats.maxMs - this.state.pingStats.minMs + 1;
+        let msDiff = (this.state.pingStats.maxMs + 20 - this.state.pingStats.minMs);
 
-        let height = (x-this.state.pingStats.minMs + 1) / msDiff * 100;
+        let height = (x-this.state.pingStats.minMs + 10) / msDiff * 100;
         let width = 1/this.state.pingLog.length*100;
 
         let colour = "green";
 
-        if (height < 30)
+        if (height > 90)
+            colour = "red"
+
+        else if (height > 50)
             colour = "orange"
 
         if (x == -1)
@@ -76,6 +79,10 @@ export default class ServiceElement extends Component{
     render() {
         let s = this.props.data;
         return <View style={styles.body}>
+
+            <View style={styles.graph}>
+                {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
+            </View>
             <Text>{s.url}</Text>
             <View style={{flexDirection: "row", justifyContent: "space-evenly", alignSelf: "center"}}>
                 <Padd>
@@ -92,9 +99,6 @@ export default class ServiceElement extends Component{
                 </Padd>
             </View>
             <Text>Failures {this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
-            <View style={styles.graph}>
-                {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
-            </View>
         </View>
     }
 }
