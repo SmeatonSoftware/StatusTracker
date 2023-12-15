@@ -28,6 +28,8 @@ namespace StatusTracker
 
             DataEngineMangment.Init();
             PIApp_Lib.Listener.Init();
+
+            Services.ServicePinger.StartPingThreadLoop();
         }
 
         private static void RegisterEndpoints()
