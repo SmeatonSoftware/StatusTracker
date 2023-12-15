@@ -67,7 +67,7 @@ export default class ServiceElement extends Component{
         if (x == -1)
         {
             colour = "red";
-            height = 100;
+            height = 50;
         }
 
         return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>

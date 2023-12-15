@@ -21,7 +21,7 @@ namespace StatusTracker.Services
                 while (true)
                 {
                     PingAll();
-                    Thread.Sleep(60000);
+                    Thread.Sleep(6000);
                 }
             });
 
@@ -30,19 +30,32 @@ namespace StatusTracker.Services
 
         public static async void PingAll()
         {
-            var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency);
+            var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency || true);
 
             var pingResults = new List<PingResult>();
+            var s = new Stopwatch();
 
             using (var client = new HttpClient()) { 
                 foreach (var service in services)
                 {
-                    var p = new Ping();
-                    var host = new Uri(service.url).Host;
+                    var req = new HttpRequestMessage(HttpMethod.Head,service.url);
 
-                    var res = await p.SendPingAsync(host);
+                    s.Restart();
+                    s.Start();
 
-                    var pingResult = new PingResult(service.Id, res.Status == IPStatus.Success, (int)res.Status, res.RoundtripTime);
+                    PingResult pingResult;
+
+                    try
+                    {
+                        var res = await client.SendAsync(req);
+                        s.Stop();
+                        pingResult = new PingResult(service.Id, res.StatusCode == System.Net.HttpStatusCode.OK, (int)res.StatusCode, s.ElapsedMilliseconds);
+                    }
+                    catch (Exception ex)
+                    {
+                        s.Stop();
+                        pingResult = new PingResult(service.Id, false, 503, s.ElapsedMilliseconds);
+                    }
 
                     service.lastRun = DateTime.UtcNow;
 
