@@ -39,6 +39,7 @@ namespace StatusTracker
             RequestRegistrar.Register(new RequestFunc("/api/service/submit", "POST", Controllers.RegisterService.AddOrUpdate));
 
             RequestRegistrar.Register(new RequestFunc("/api/pings/recent", "GET", Controllers.PingStats.Recent));
+            RequestRegistrar.Register(new RequestFunc("/api/pings/stats", "GET", Controllers.PingStats.Stats));
         }
 
         private static void Main(string[] args)
