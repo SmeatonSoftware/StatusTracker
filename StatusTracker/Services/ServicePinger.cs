@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +27,6 @@ namespace StatusTracker.Services
 
         public static async void PingAll()
         {
-            var s = new Stopwatch();
             var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency);
 
             var pingResults = new List<PingResult>();
@@ -34,16 +34,12 @@ namespace StatusTracker.Services
             using (var client = new HttpClient()) { 
                 foreach (var service in services)
                 {
-                    var req = new HttpRequestMessage(HttpMethod.Get, service.url);
+                    var p = new Ping();
+                    var host = new Uri(service.url).Host;
 
-                    s.Restart();
-                    s.Start();
+                    var res = await p.SendPingAsync(host);
 
-                    var res = await client.SendAsync(req);
-
-                    s.Stop();
-
-                    var pingResult = new PingResult(service.Id, res.IsSuccessStatusCode, (int)res.StatusCode, s.ElapsedMilliseconds);
+                    var pingResult = new PingResult(service.Id, res.Status == IPStatus.Success, (int)res.Status, res.RoundtripTime);
 
                     pingResults.Add(pingResult);
                 }
