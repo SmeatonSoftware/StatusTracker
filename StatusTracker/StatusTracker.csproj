@@ -59,7 +59,9 @@
     <Compile Include="Config.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Controllers\Logger.cs" />
+    <Compile Include="Data\Classes\PingResult.cs" />
     <Compile Include="Data\Classes\RequestLog.cs" />
+    <Compile Include="Data\Classes\TargetService.cs" />
     <Compile Include="Data\DataClass.cs" />
     <Compile Include="Data\DataEngine.cs" />
     <Compile Include="Data\DataEngineManagement.cs" />

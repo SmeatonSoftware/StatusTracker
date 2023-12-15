@@ -1,5 +1,6 @@
 ﻿using PIApp_Lib;
 using StatusTracker.Controllers;
+using StatusTracker.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +26,7 @@ namespace StatusTracker
             Listener.log = Logger.Log;
             //Listener.middlewares.Add(Logger.Log);
 
-            //DataEngineMangment.Init();
+            DataEngineMangment.Init();
             PIApp_Lib.Listener.Init();
         }
 

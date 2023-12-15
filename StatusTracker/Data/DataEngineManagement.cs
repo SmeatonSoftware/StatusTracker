@@ -8,6 +8,8 @@ namespace StatusTracker.Data
     public static class DataEngineMangment
     {
         public static DataEngine<RequestLog> requestLogEngine;
+        public static DataEngine<TargetService> targetServiceEngine;
+        public static DataEngine<PingResult> pingResultEngine;
 
         #region Fields
 
@@ -23,7 +25,9 @@ namespace StatusTracker.Data
 
             db = new LiteDatabaseAsync($"Filename={Consts.databaseFile}");
 
-            requestLogEngine = new DataEngine<RequestLog>(db.GetCollection<RequestLog>("requestlog"));
+            requestLogEngine = new DataEngine<RequestLog>(db.GetCollection<RequestLog>());
+            targetServiceEngine = new DataEngine<TargetService>(db.GetCollection<TargetService>());
+            pingResultEngine = new DataEngine<PingResult>(db.GetCollection<PingResult>());
         }
 
         #endregion Methods
