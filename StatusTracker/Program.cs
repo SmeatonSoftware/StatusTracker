@@ -33,6 +33,8 @@ namespace StatusTracker
         private static void RegisterEndpoints()
         {
             RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 0, 5)));
+
+            RequestRegistrar.Register(new RequestFunc("/api/service/submit", "POST", Controllers.RegisterService.AddOrUpdate));
         }
 
         private static void Main(string[] args)
