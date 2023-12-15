@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {StyleSheet, TextInput, View, Text, Button} from "react-native";
 import APIRequest from "./request";
+import Padd from "./padd";
 
 export default class NewService extends Component{
     constructor(props) {
@@ -16,6 +17,7 @@ export default class NewService extends Component{
         await r.executeWithCallback(
             (d)=> {
                 that.setState({newUrl: ""});
+                document.location.reload();
             },
             (d)=> {console.log(d)},
             true,
@@ -29,7 +31,9 @@ export default class NewService extends Component{
             <TextInput style={styles.input} value={this.state.newUrl} onChangeText={x=>this.setState({newUrl: x})}/>
             <Text>Minutes between ping</Text>
             <TextInput style={styles.input} value={this.state.minutes} onChangeText={x=>this.setState({minutes: x})}/>
-            <Button title={"Track Url"} onPress={x=>this.submitUrl()}/>
+            <Padd>
+                <Button title={"Track Url"} onPress={x=>this.submitUrl()}/>
+            </Padd>
         </View>;
     }
 }

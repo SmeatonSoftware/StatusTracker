@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {ScrollView, View, Text, StyleSheet} from "react-native";
+import {ScrollView, View, Text, StyleSheet, Button} from "react-native";
 import APIRequest from "./request";
 import Padd from "./padd";
 
@@ -20,7 +20,7 @@ export default class ServiceElement extends Component{
 
     async refreshLog(){
         let that = this;
-        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=20", "", "GET")
+        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=50", "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -39,6 +39,20 @@ export default class ServiceElement extends Component{
         await r.executeWithCallback(
             (d)=> {
                 that.setState({pingStats: d.data});
+            },
+            (d)=> {console.log(d)},
+            true,
+            {}
+        );
+    }
+
+    async delete(){
+        let that = this;
+        let r = new APIRequest("services/delete?service="+this.props.data.Id, "", "DELETE")
+
+        await r.executeWithCallback(
+            (d)=> {
+                document.location.reload();
             },
             (d)=> {console.log(d)},
             true,
@@ -79,31 +93,39 @@ export default class ServiceElement extends Component{
     render() {
         let s = this.props.data;
         return <View style={styles.body}>
-
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
             </View>
             <Text>{s.url}</Text>
-            <View style={{flexDirection: "row", justifyContent: "space-evenly", alignSelf: "center"}}>
-                <Padd>
+            <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
+                <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
                     <Text style={styles.text}>{this.state.pingStats.minMs} MS</Text>
                 </Padd>
-                <Padd>
+                <Padd style={styles.padd}>
                     <Text style={styles.text}>Avg</Text>
                     <Text style={styles.text}>{this.state.pingStats.avgMs} MS</Text>
                 </Padd>
-                <Padd>
+                <Padd style={styles.padd}>
                     <Text style={styles.text}>Max</Text>
                     <Text style={styles.text}>{this.state.pingStats.maxMs} MS</Text>
                 </Padd>
+                <Padd style={styles.padd}>
+                    <Text style={styles.text}>Errors</Text>
+                    <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
+                </Padd>
             </View>
-            <Text>Failures {this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
+            <Padd>
+                <Button title={"Delete"} style={{minWidth: "100%"}} onPress={x=>this.delete()}/>
+            </Padd>
         </View>
     }
 }
 
 const styles = StyleSheet.create({
+    padd:{
+        minWidth: "50%"
+    },
     text:{
         textAlign: "center"
     },
@@ -113,10 +135,11 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        minHeight: 200
+        minHeight: 200,
         // minHeight: "100%",
         // height: "auto",
         //paddingBottom: "35%"
+        paddingBottom: "2%"
     },
     graph:{
         flex: 1,
