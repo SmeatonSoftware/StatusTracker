@@ -84,8 +84,9 @@ const styles = StyleSheet.create({
         //aspectRatio: tarAspect,
         maxHeight: windowHeight,
         maxWidth: windowHeight * tarAspect,
+        minWidth: windowHeight * tarAspect,
         padding: 10,
-        overflowY: "scroll"
+        overflowY: "scroll",
     },
     body:{
         flex: 1,
