@@ -87,13 +87,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         minWidth: "100%",
         //minHeight: "100%"
+        height: "auto",
+        paddingBottom: "10%"
     },
     graph:{
         flex: 1,
         alignItems: "flex-start",
-        minWidth: "100%",
         backgroundColor: "#888",
         flexDirection: "row",
+        minWidth: "100%",
         minHeight: "100%"
     }
 });
