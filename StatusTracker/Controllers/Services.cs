@@ -21,6 +21,39 @@ namespace StatusTracker.Controllers
             };
         }
 
+        public static async Task<ResponseState> Delete(RequestContext context)
+        {
+            var query = context.context.Request.QueryString;
+
+            if (!query.AllKeys.Contains("service") || !int.TryParse(query.Get("service"), out var serviceId))
+            {
+                return new ResponseState()
+                {
+                    message = "Service Id Missing Or Malformed",
+                    status = 400
+                };
+            }
+
+            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+
+            if (service == null)
+            {
+                return new ResponseState()
+                {
+                    message = "Service Not Found",
+                    status = 404
+                };
+            }
+
+            await DataEngineMangment.pingResultEngine.table.DeleteManyAsync(x => x.TargetServiceId == serviceId);
+            await DataEngineMangment.targetServiceEngine.Remove(serviceId);
+
+            return new ResponseState()
+            {
+                message = "Deleted Service"
+            };
+        }
+
         public static async Task<ResponseState> AddOrUpdate(RequestContext context)
         {
             var url = context.GetBody();
