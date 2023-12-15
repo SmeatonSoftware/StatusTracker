@@ -12,6 +12,7 @@ export default class Padd extends Component{
 
 const styles = StyleSheet.create({
     pad:{
-        margin: 5
+        margin: 5,
+        minWidth: "100%"
     }
 });
