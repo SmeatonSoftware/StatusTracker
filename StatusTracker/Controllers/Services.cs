@@ -56,7 +56,7 @@ namespace StatusTracker.Controllers
 
         public static async Task<ResponseState> AddOrUpdate(RequestContext context)
         {
-            var url = context.GetBody();
+            var url = context.GetBody().Trim('\"');
 
             var query = context.context.Request.QueryString;
 

@@ -24,7 +24,6 @@ export default class ServiceElement extends Component{
 
         await r.executeWithCallback(
             (d)=> {
-                console.log(d)
                 that.setState({pingLog: d.data});
             },
             (d)=> {console.log(d)},
@@ -39,7 +38,6 @@ export default class ServiceElement extends Component{
 
         await r.executeWithCallback(
             (d)=> {
-                console.log(d)
                 that.setState({pingStats: d.data});
             },
             (d)=> {console.log(d)},
@@ -56,11 +54,7 @@ export default class ServiceElement extends Component{
     getBar(x, idx){
         let log = this.state.pingLog;
 
-        console.log(log)
-
         let msDiff = (Math.max(...log) + 20 - Math.min(...log));
-
-        console.log(msDiff)
 
         let height = (x-Math.min(...log) + 10) / msDiff * 100;
         let width = 1/log.length*100;

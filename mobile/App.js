@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
 import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
 import APIRequest from "./components/request";
 import Services from "./components/services";
+import NewService from "./components/newService";
 
 export default class App extends Component{
     constructor(props) {
@@ -35,7 +36,9 @@ export default class App extends Component{
                         <Text>Status Tracker</Text>
                     </View>
                     <View style={styles.body}>
-                        <Text>Open up App.js to start working on your app!</Text>
+                        <Padd>
+                            <NewService/>
+                        </Padd>
                         <Services/>
                         {/*<Text>Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?</Text>*/}
                         {/*<Padd>*/}
