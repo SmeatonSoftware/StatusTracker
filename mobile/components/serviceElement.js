@@ -65,7 +65,10 @@ export default class ServiceElement extends Component{
             colour = "orange"
 
         if (x == -1)
-            colour = "red"
+        {
+            colour = "red";
+            height = 100;
+        }
 
         return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>
     }
@@ -106,9 +109,9 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        //minHeight: "100%"
+        minHeight: "100%",
         height: "auto",
-        paddingBottom: "35%"
+        //paddingBottom: "35%"
     },
     graph:{
         flex: 1,
@@ -116,6 +119,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#888",
         flexDirection: "row",
         minWidth: "100%",
-        minHeight: "200%"
+        //minHeight: "200%"
     }
 });
