@@ -18,7 +18,7 @@ namespace StatusTracker.Data.Classes
         {
             this.url = url;
             this.runFrequency = runFrequency;
-            this.lastRun = DateTime.Now;
+            this.lastRun = DateTime.MinValue;
         }
     }
 }

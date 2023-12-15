@@ -18,8 +18,11 @@ namespace StatusTracker.Services
         {
             var t = new Thread(() =>
             {
-                PingAll();
-                Thread.Sleep(60000);
+                while (true)
+                {
+                    PingAll();
+                    Thread.Sleep(30000);
+                }
             });
 
             t.Start();
@@ -41,9 +44,14 @@ namespace StatusTracker.Services
 
                     var pingResult = new PingResult(service.Id, res.Status == IPStatus.Success, (int)res.Status, res.RoundtripTime);
 
+                    service.lastRun = DateTime.UtcNow;
+
+                    DataEngineMangment.targetServiceEngine.Update(service);
                     pingResults.Add(pingResult);
                 }
             }
+
+            Console.WriteLine($"Pinged {services.Length} Services");
 
             await DataEngineMangment.pingResultEngine.table.InsertBulkAsync(pingResults);
         }

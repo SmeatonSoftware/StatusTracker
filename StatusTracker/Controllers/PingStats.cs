@@ -14,6 +14,9 @@ namespace StatusTracker.Controllers
         {
             var query = context.context.Request.QueryString;
 
+            var count = query.AllKeys.Contains("count") ? int.TryParse(query.Get("count"), out var d) ? d : 100 : 100;
+            var small = query.AllKeys.Contains("small") ? query.Get("small") == "true" : false;
+
             if (!query.AllKeys.Contains("service") || !int.TryParse(query.Get("service"), out var serviceId))
             {
                 return new ResponseState()
@@ -23,13 +26,35 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var results = await DataEngineMangment.pingResultEngine.Search(x => x.TargetServiceId == serviceId);
+            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
 
-            return new ResponseState()
+            if (service == null)
             {
-                message = "Ping Results",
-                data = results
-            };
+                return new ResponseState()
+                {
+                    message = "Service Not Found",
+                    status = 404
+                };
+            }
+
+            var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x=>x.Id).Limit(count).ToArrayAsync();
+
+            if (small)
+            {
+                return new ResponseState()
+                {
+                    message = "Ping Results",
+                    data = results.Select(x=>x.Success ? x.MS : -1).ToArray()
+                };
+            }
+            else
+            {
+                return new ResponseState()
+                {
+                    message = "Ping Results",
+                    data = results
+                };
+            }
         }
 
         public static async Task<ResponseState> Stats(RequestContext context)
@@ -45,7 +70,34 @@ namespace StatusTracker.Controllers
                 };
             }
 
+            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+
             var results = await DataEngineMangment.pingResultEngine.Search(x => x.TargetServiceId == serviceId);
+
+            if (service == null)
+            {
+                return new ResponseState()
+                {
+                    message = "Service Not Found",
+                    status = 404
+                };
+            }
+
+            if (results.Length == 0)
+            {
+                return new ResponseState()
+                {
+                    message = "Ping Results",
+                    data = new
+                    {
+                        minMs = 0,
+                        maxMs = 0,
+                        avgMs = 0,
+                        failures = 0,
+                        total = 0
+                    }
+                };
+            }
 
             return new ResponseState()
             {
