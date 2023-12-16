@@ -36,11 +36,12 @@ export default class NewService extends Component{
                 <Text style={styles.text}>Minutes between ping</Text>
                 <TextInput style={styles.input} value={this.state.minutes} onChangeText={x=>this.setState({minutes: x})}/>
             </Padd>
-            <Padd style={{paddingTop: 10, paddingBottom: 10, flexDirection: "row", justifyContent: "space-between", minWidth: "100%"}}>
-                <View style={{minWidth: "48%"}}>
+            <Padd style={{paddingTop: 10, paddingBottom: 10, flexDirection: "row", justifyContent: "space-evenly", minWidth: "100%"}}>
+                <View style={{minWidth: "49%"}}>
                     <Button color={theme.buttonSecondary} title={"Track Url"} onPress={x=>this.submitUrl()}/>
                 </View>
-                <View style={{minWidth: "48%"}}>
+                <View style={{minWidth: "1%"}}/>
+                <View style={{minWidth: "49%"}}>
                     <Button color={theme.buttonSecondary} title={"Refresh"} onPress={x=>document.location.reload()}/>
                 </View>
             </Padd>

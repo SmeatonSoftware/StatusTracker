@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         minWidth: "100%",
-        marginBottom: "20%"
+        maxWidth: "100%",
+        marginBottom: "100%"
     }
 });
