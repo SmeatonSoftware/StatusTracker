@@ -17,6 +17,9 @@ cd ./mobile
 
 wsl bash ./build.sh
 
+cp -r ./web-build/ ../app/site/
+cp -r ./app-build/ ../app/site/builds/
+
 echo "Finished Build!"
 
 read
