@@ -10,6 +10,7 @@ import {theme} from "./components/theme";
 
 import {GraphUp, InfoCircle, Phone} from "react-bootstrap-icons";
 import Trackers from "./pages/trackers";
+import Info from "./pages/info";
 
 export default class App extends Component{
     constructor(props) {
@@ -22,6 +23,9 @@ export default class App extends Component{
         switch (this.state.page){
             default:
                 return <Trackers/>;
+
+            case "info":
+                return <Info/>;
         }
 
     }
@@ -39,12 +43,12 @@ export default class App extends Component{
                 </View>
 
                 <View style={styles.footer}>
-                    <TouchableHighlight onPress={x=>console.log(x)} style={styles.navBox}>
+                    <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
                         <View>
                         <GraphUp style={styles.navButtons}/>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={x=>console.log(x)} style={styles.navBox}>
+                    <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
                         <View>
                             <InfoCircle style={styles.navButtons}/>
                         </View>
