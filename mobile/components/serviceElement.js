@@ -36,7 +36,7 @@ export default class ServiceElement extends Component{
 
     async refreshStats(){
         let that = this;
-        let r = new APIRequest("pings/stats?service="+this.props.data.Id+"&count"+this.state.lim, "", "GET")
+        let r = new APIRequest("pings/stats?service="+this.props.data.Id+"&count="+this.state.lim, "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -70,9 +70,11 @@ export default class ServiceElement extends Component{
     getBar(x, idx){
         let log = this.state.pingLog;
 
-        let msDiff = (Math.max(...log) + 20 - Math.min(...log));
+        let msDiff =  this.state.pingStats.maxMs -  this.state.pingStats.minMs + 10;
 
-        let height = (x-Math.min(...log) + 10) / msDiff * 100;
+        let _x = x - this.state.pingStats.minMs + 5;
+
+        let height = Math.sqrt(_x) / Math.sqrt(msDiff) * 100;
         let width = 1/log.length*100;
 
         let colour = "green";

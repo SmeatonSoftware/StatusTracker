@@ -38,12 +38,12 @@ namespace StatusTracker.Services
             using (var client = new HttpClient()) { 
                 foreach (var service in services)
                 {
-                    var req = new HttpRequestMessage(HttpMethod.Head,service.url);
+                    var req = new HttpRequestMessage(HttpMethod.Head, service.url);
+
+                    PingResult pingResult;
 
                     s.Restart();
                     s.Start();
-
-                    PingResult pingResult;
 
                     try
                     {
