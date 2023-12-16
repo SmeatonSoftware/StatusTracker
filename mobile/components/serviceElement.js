@@ -2,6 +2,7 @@ import {Component} from "react";
 import {ScrollView, View, Text, StyleSheet, Button} from "react-native";
 import APIRequest from "./request";
 import Padd from "./padd";
+import {theme} from "./theme";
 
 export default class ServiceElement extends Component{
     constructor(props) {
@@ -100,7 +101,7 @@ export default class ServiceElement extends Component{
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
             </View>
-            <Text style={{fontWeight:"bold"}}>{s.url}</Text>
+            <Text style={{fontWeight:"bold", ...styles.text}}>{s.url}</Text>
             <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
                 <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
@@ -120,7 +121,7 @@ export default class ServiceElement extends Component{
                 </Padd>
             </View>
             <Padd>
-                <Button title={"Delete"} style={{minWidth: "100%"}} onPress={x=>this.delete()}/>
+                <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}} onPress={x=>this.delete()}/>
             </Padd>
         </View>
     }
@@ -131,7 +132,8 @@ const styles = StyleSheet.create({
         minWidth: "25%"
     },
     text:{
-        textAlign: "center"
+        textAlign: "center",
+        color: theme.textPrimary
     },
     body:{
         flex: 1,
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     graph:{
         flex: 1,
         alignItems: "flex-start",
-        backgroundColor: "#888",
+        backgroundColor: theme.bgGraph,
         flexDirection: "row",
         minWidth: "100%",
         //minHeight: "200%"

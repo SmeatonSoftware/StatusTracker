@@ -6,6 +6,7 @@ import {Component} from "react";
 import APIRequest from "./components/request";
 import Services from "./components/services";
 import NewService from "./components/newService";
+import {theme} from "./components/theme";
 
 export default class App extends Component{
     constructor(props) {
@@ -14,42 +15,18 @@ export default class App extends Component{
         this.state = {smeatonStatus: {UpForMS: 0}};
     }
 
-    async getStatus() {
-        let that = this;
-        let r = new APIRequest("status", "", "GET")
-
-        await r.executeWithCallback(
-            (d)=> {
-                that.setState({smeatonStatus: d.data});
-            },
-            (d)=> {console.log(d)},
-            true,
-            {}
-        );
-    }
-
     render() {
         return (
             <View style={styles.outer}>
                 <View style={styles.container}>
                     <View style={styles.topBar}>
-                        <Text style={{fontSize: 30, fontWeight: "bold"}}>Status Tracker</Text>
+                        <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
                     <View style={styles.body}>
                         <Padd>
                             <NewService/>
                         </Padd>
                         <Services/>
-                        {/*<Text>Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?Will This Overrun?</Text>*/}
-                        {/*<Padd>*/}
-                        {/*    <Button title={"I Like DIICCK"} onPress={x => this.getStatus()}/>*/}
-                        {/*</Padd>*/}
-
-                        {/*<Padd>*/}
-                        {/*    <ProgressBar progress={0.2}>%</ProgressBar>*/}
-                        {/*</Padd>*/}
-
-                        {/*<Text>{this.state.smeatonStatus.UpForMS}</Text>*/}
                     </View>
 
                 </View>
@@ -75,13 +52,14 @@ const styles = StyleSheet.create({
     },
     outer:{
         flex: 1,
-        backgroundColor: '#565656',
+        backgroundColor: theme.bgVoid,
         alignItems: 'center',
         justifyContent: 'center'
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: theme.bgPrimary,
+        color: theme.textPrimary,
         alignItems: 'center',
         //justifyContent: 'center',
         //aspectRatio: tarAspect,

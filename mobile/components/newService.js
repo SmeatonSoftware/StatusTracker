@@ -2,6 +2,7 @@ import {Component} from "react";
 import {StyleSheet, TextInput, View, Text, Button} from "react-native";
 import APIRequest from "./request";
 import Padd from "./padd";
+import {theme} from "./theme";
 
 export default class NewService extends Component{
     constructor(props) {
@@ -27,12 +28,21 @@ export default class NewService extends Component{
 
     render() {
         return <View style={styles.body}>
-            <Text>Service Url</Text>
-            <TextInput style={styles.input} value={this.state.newUrl} onChangeText={x=>this.setState({newUrl: x})}/>
-            <Text>Minutes between ping</Text>
-            <TextInput style={styles.input} value={this.state.minutes} onChangeText={x=>this.setState({minutes: x})}/>
-            <Padd>
-                <Button title={"Track Url"} onPress={x=>this.submitUrl()}/>
+            <Padd style={{alignItems: "center"}}>
+                <Text style={styles.text}>Service Url</Text>
+                <TextInput style={styles.input} value={this.state.newUrl} onChangeText={x=>this.setState({newUrl: x})}/>
+            </Padd>
+            <Padd style={{alignItems: "center"}}>
+                <Text style={styles.text}>Minutes between ping</Text>
+                <TextInput style={styles.input} value={this.state.minutes} onChangeText={x=>this.setState({minutes: x})}/>
+            </Padd>
+            <Padd style={{paddingTop: 10, paddingBottom: 10, flexDirection: "row", justifyContent: "space-between", minWidth: "100%"}}>
+                <View style={{minWidth: "48%"}}>
+                    <Button color={theme.buttonSecondary} title={"Track Url"} onPress={x=>this.submitUrl()}/>
+                </View>
+                <View style={{minWidth: "48%"}}>
+                    <Button color={theme.buttonSecondary} title={"Refresh"} onPress={x=>document.location.reload()}/>
+                </View>
             </Padd>
         </View>;
     }
@@ -44,7 +54,13 @@ const styles = StyleSheet.create({
         minWidth: "100%",
         alignItems: "center"
     },
+    text:{
+        color: theme.textPrimary,
+        fontWeight: "bold"
+    },
     input:{
+        backgroundColor: theme.bgSecondary,
+        color: theme.textPrimary,
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 5,
