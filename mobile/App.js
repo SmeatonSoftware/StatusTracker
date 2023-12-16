@@ -8,7 +8,7 @@ import Services from "./components/services";
 import NewService from "./components/newService";
 import {theme} from "./components/theme";
 
-import {GraphUp, InfoCircle, Phone} from "react-bootstrap-icons";
+import {BarChartFill, GraphUp, InfoCircle, InfoCircleFill, InfoSquareFill, Phone} from "react-bootstrap-icons";
 import Trackers from "./pages/trackers";
 import Info from "./pages/info";
 
@@ -45,12 +45,12 @@ export default class App extends Component{
                 <View style={styles.footer}>
                     <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
                         <View>
-                        <GraphUp style={styles.navButtons}/>
+                            <BarChartFill style={styles.navButtons}/>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
                         <View>
-                            <InfoCircle style={styles.navButtons}/>
+                            <InfoSquareFill style={styles.navButtons}/>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
         width: "47%",
         alignItems: "center",
         shadowColor: '#171717',
-        shadowOffset: {width: 2, height: 4},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-        borderColor: "darkgray",
+        shadowOffset: {width: 3, height: 5},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        borderColor: "white",
         borderWidth: 1,
         borderRadius: 5,
         padding: 3
