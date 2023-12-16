@@ -33,7 +33,7 @@ export default class App extends Component{
             <View style={styles.outer}>
                 <View style={styles.container}>
                     <View style={styles.topBar}>
-                        <Text style={{fontSize: 30}}>Status Tracker</Text>
+                        <Text style={{fontSize: 30, fontWeight: "bold"}}>Status Tracker</Text>
                     </View>
                     <View style={styles.body}>
                         <Padd>

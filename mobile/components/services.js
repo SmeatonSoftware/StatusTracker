@@ -10,7 +10,7 @@ export default class Services extends Component{
         this.state = {services: []}
     }
 
-    async componentDidMount() {
+    async refresh(){
         let that = this;
         let r = new APIRequest("services/all", "", "GET")
 
@@ -22,6 +22,11 @@ export default class Services extends Component{
             true,
             {}
         );
+    }
+
+    componentDidMount() {
+        this.refresh();
+        setInterval(x=>this.refresh(), 60000);
     }
 
     render() {

@@ -6,7 +6,8 @@ echo "Building APP"
 
 cd ./mobile
 
-eas build --platform android
+wsl
+eas build --platform android --local
 
 echo "Finished Build!"
 

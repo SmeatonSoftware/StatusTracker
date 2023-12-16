@@ -21,7 +21,7 @@ namespace StatusTracker.Services
                 while (true)
                 {
                     PingAll();
-                    Thread.Sleep(6000);
+                    Thread.Sleep(60000);
                 }
             });
 
@@ -30,7 +30,7 @@ namespace StatusTracker.Services
 
         public static async void PingAll()
         {
-            var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency || true);
+            var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency);
 
             var pingResults = new List<PingResult>();
             var s = new Stopwatch();
@@ -64,7 +64,7 @@ namespace StatusTracker.Services
                 }
             }
 
-            Console.WriteLine($"Pinged {services.Length} Services");
+            //Console.WriteLine($"Pinged {services.Length} Services");
 
             await DataEngineMangment.pingResultEngine.table.InsertBulkAsync(pingResults);
         }

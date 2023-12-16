@@ -15,12 +15,14 @@ export default class ServiceElement extends Component{
                 avgMs: 0,
                 failures: 0,
                 total: 0
-            }}
+            },
+            lim: 50
+        }
     }
 
     async refreshLog(){
         let that = this;
-        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count=50", "", "GET")
+        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count="+this.state.lim, "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -34,7 +36,7 @@ export default class ServiceElement extends Component{
 
     async refreshStats(){
         let that = this;
-        let r = new APIRequest("pings/stats?service="+this.props.data.Id, "", "GET")
+        let r = new APIRequest("pings/stats?service="+this.props.data.Id+"&count"+this.state.lim, "", "GET")
 
         await r.executeWithCallback(
             (d)=> {
@@ -78,12 +80,12 @@ export default class ServiceElement extends Component{
         if (height > 90)
             colour = "red"
 
-        else if (height > 50)
+        else if (height > 70)
             colour = "orange"
 
         if (x == -1)
         {
-            colour = "red";
+            colour = "silver";
             height = 50;
         }
 
@@ -96,7 +98,7 @@ export default class ServiceElement extends Component{
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
             </View>
-            <Text>{s.url}</Text>
+            <Text style={{fontWeight:"bold"}}>{s.url}</Text>
             <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
                 <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
@@ -124,7 +126,7 @@ export default class ServiceElement extends Component{
 
 const styles = StyleSheet.create({
     padd:{
-        minWidth: "50%"
+        minWidth: "25%"
     },
     text:{
         textAlign: "center"

@@ -63,6 +63,8 @@ namespace StatusTracker.Controllers
         {
             var query = context.context.Request.QueryString;
 
+            var count = query.AllKeys.Contains("count") ? int.TryParse(query.Get("count"), out var d) ? d : 100 : 100;
+
             if (!query.AllKeys.Contains("service") || !int.TryParse(query.Get("service"), out var serviceId))
             {
                 return new ResponseState()
@@ -74,7 +76,7 @@ namespace StatusTracker.Controllers
 
             var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
 
-            var results = await DataEngineMangment.pingResultEngine.Search(x => x.TargetServiceId == serviceId);
+            var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x=>x.Id).Limit(count).ToArrayAsync();
 
             if (service == null)
             {
