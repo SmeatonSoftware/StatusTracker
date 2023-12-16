@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, Dimensions, StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
 import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
@@ -7,6 +7,8 @@ import APIRequest from "./components/request";
 import Services from "./components/services";
 import NewService from "./components/newService";
 import {theme} from "./components/theme";
+
+import {GraphUp, InfoCircle, Phone} from "react-bootstrap-icons";
 
 export default class App extends Component{
     constructor(props) {
@@ -31,12 +33,16 @@ export default class App extends Component{
 
                 </View>
                 <View style={styles.footer}>
-                    <View style={{minWidth: "49%"}}>
-                        <Button title={"Tracker"}/>
-                    </View>
-                    <View style={{minWidth: "49%"}}>
-                        <Button title={"About"}/>
-                    </View>
+                    <TouchableHighlight onPress={x=>console.log(x)} style={styles.navBox}>
+                        <View>
+                        <GraphUp style={styles.navButtons}/>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={x=>console.log(x)} style={styles.navBox}>
+                        <View>
+                            <InfoCircle style={styles.navButtons}/>
+                        </View>
+                    </TouchableHighlight>
                 </View>
                 {/*<StatusBar style="auto"/>*/}
             </View>
@@ -52,6 +58,22 @@ const maxAspect = 16/(16+9);
 const tarAspect = Math.min(windowAspect, maxAspect);
 
 const styles = StyleSheet.create({
+    navBox:{
+        width: "49%",
+        alignItems: "center",
+        shadowColor: '#171717',
+        shadowOffset: {width: 2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        borderColor: "darkgray",
+        borderWidth: 1,
+        padding: 3
+    },
+    navButtons:{
+        color: theme.textPrimary,
+        height: "50",
+        width: "50"
+    },
     topBar:{
         //flex: 1,
         minWidth: "100%",
@@ -91,9 +113,8 @@ const styles = StyleSheet.create({
         minWidth: windowHeight * tarAspect,
         minHeight: "5%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
         alignItems: "center",
         padding: "1%"
-
     }
 });
