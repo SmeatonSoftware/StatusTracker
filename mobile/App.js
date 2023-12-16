@@ -8,9 +8,10 @@ import Services from "./components/services";
 import NewService from "./components/newService";
 import {theme} from "./components/theme";
 
-import {BarChartFill, GraphUp, InfoCircle, InfoCircleFill, InfoSquareFill, Phone} from "react-bootstrap-icons";
 import Trackers from "./pages/trackers";
 import Info from "./pages/info";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {Entypo} from "@expo/vector-icons";
 
 export default class App extends Component{
     constructor(props) {
@@ -34,24 +35,20 @@ export default class App extends Component{
         return (
             <View style={styles.outer}>
                 <View style={styles.container}>
+                    <View style={styles.topBar}>
+                        <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
+                    </View>
                     <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
-                        <View style={styles.topBar}>
-                            <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
-                        </View>
                         {this.getPage()}
                     </ScrollView>
                 </View>
 
                 <View style={styles.footer}>
                     <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
-                        <View>
-                            <BarChartFill style={styles.navButtons}/>
-                        </View>
+                        <Entypo name="bar-graph" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
-                        <View>
-                            <InfoSquareFill style={styles.navButtons}/>
-                        </View>
+                        <Entypo name="info-with-circle" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                 </View>
                 {/*<StatusBar style="auto"/>*/}
@@ -80,15 +77,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 3
     },
-    navButtons:{
-        color: theme.textPrimary,
-        height: "50",
-        width: "50"
-    },
     topBar:{
         //flex: 1,
         minWidth: "100%",
-        alignSelf: "flex-start",
         alignItems: "center"
     },
     outer:{

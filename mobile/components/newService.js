@@ -28,11 +28,11 @@ export default class NewService extends Component{
 
     render() {
         return <View style={styles.body}>
-            <Padd style={{alignItems: "center"}}>
+            <Padd style={{alignItems: "center", minWidth: "100%"}}>
                 <Text style={styles.text}>Service Url</Text>
                 <TextInput style={styles.input} value={this.state.newUrl} onChangeText={x=>this.setState({newUrl: x})}/>
             </Padd>
-            <Padd style={{alignItems: "center"}}>
+            <Padd style={{alignItems: "center", minWidth: "100%"}}>
                 <Text style={styles.text}>Minutes between ping</Text>
                 <TextInput style={styles.input} value={this.state.minutes} onChangeText={x=>this.setState({minutes: x})}/>
             </Padd>
@@ -50,8 +50,10 @@ export default class NewService extends Component{
 
 const styles = StyleSheet.create({
     body:{
-        //height: "100%",
+        //height: "50%",
+        flex: 1,
         minWidth: "100%",
+        justifyContent: "flex-start",
         alignItems: "center"
     },
     text:{
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 5,
-        width: "100%",
+        minWidth: "100%",
         padding: 10
     }
 });

@@ -129,7 +129,7 @@ export default class ServiceElement extends Component{
 
 const styles = StyleSheet.create({
     padd:{
-        minWidth: "25%"
+        minWidth: "20%"
     },
     text:{
         textAlign: "center",

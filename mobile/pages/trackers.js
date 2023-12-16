@@ -8,9 +8,7 @@ import Services from "../components/services";
 export default class Trackers extends Component{
     render(){
         return <View style={styles.body}>
-                <Padd>
-                    <NewService/>
-                </Padd>
+                <NewService/>
                 <Services/>
         </View>;
     }
@@ -20,7 +18,7 @@ const styles = StyleSheet.create({
     body:{
         flex: 1,
         alignSelf: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         minWidth: "100%",
         marginBottom: "20%"

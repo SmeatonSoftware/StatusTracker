@@ -2,21 +2,18 @@ import {Component} from "react";
 import {Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {theme} from "../components/theme";
 import Padd from "../components/padd";
-import NewService from "../components/newService";
-import Services from "../components/services";
-import {Android2} from "react-bootstrap-icons";
+import {AntDesign} from "@expo/vector-icons";
 
 export default class Info extends Component{
     render(){
         return <View style={styles.body}>
             <Padd style={{alignItems: "center"}}>
                 <Text style={styles.text}>Monitor your websites status for free.</Text>
-
             </Padd>
             <Padd style={{alignItems: "center"}}>
                 <TouchableHighlight onPress={x=>Linking.openURL("https://status.smeatonsoftware.co.uk/builds/app.apk")} style={styles.navBox}>
-                    <View>
-                        <Android2 style={styles.navButtons}/>
+                    <View style={{alignItems: "center"}}>
+                        <AntDesign name="android1" size={50} color={theme.textPrimary}/>
                         <Text style={styles.text}>Download .APK</Text>
                     </View>
                 </TouchableHighlight>
