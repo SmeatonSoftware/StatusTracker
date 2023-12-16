@@ -20,6 +20,9 @@ wsl bash ./build.sh
 cp -r ./web-build/ ../app/site/
 cp -r ./app-build/ ../app/site/builds/
 
+rm -r -f ./web-build
+rm -r -f ./app-build
+
 echo "Finished Build!"
 
 read
