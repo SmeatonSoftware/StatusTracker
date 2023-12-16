@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, Dimensions, StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
+import {Button, Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
 import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
@@ -9,29 +9,35 @@ import NewService from "./components/newService";
 import {theme} from "./components/theme";
 
 import {GraphUp, InfoCircle, Phone} from "react-bootstrap-icons";
+import Trackers from "./pages/trackers";
 
 export default class App extends Component{
     constructor(props) {
         super(props);
 
-        this.state = {smeatonStatus: {UpForMS: 0}};
+        this.state = {page: "",smeatonStatus: {UpForMS: 0}};
+    }
+
+    getPage(){
+        switch (this.state.page){
+            default:
+                return <Trackers/>;
+        }
+
     }
 
     render() {
         return (
             <View style={styles.outer}>
                 <View style={styles.container}>
-                    <View style={styles.topBar}>
-                        <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
-                    </View>
-                    <View style={styles.body}>
-                        <Padd>
-                            <NewService/>
-                        </Padd>
-                        <Services/>
-                    </View>
-
+                    <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
+                        <View style={styles.topBar}>
+                            <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
+                        </View>
+                        {this.getPage()}
+                    </ScrollView>
                 </View>
+
                 <View style={styles.footer}>
                     <TouchableHighlight onPress={x=>console.log(x)} style={styles.navBox}>
                         <View>
@@ -59,7 +65,7 @@ const tarAspect = Math.min(windowAspect, maxAspect);
 
 const styles = StyleSheet.create({
     navBox:{
-        width: "49%",
+        width: "47%",
         alignItems: "center",
         shadowColor: '#171717',
         shadowOffset: {width: 2, height: 4},
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         borderColor: "darkgray",
         borderWidth: 1,
+        borderRadius: 5,
         padding: 3
     },
     navButtons:{
@@ -97,14 +104,7 @@ const styles = StyleSheet.create({
         maxWidth: windowHeight * tarAspect,
         minWidth: windowHeight * tarAspect,
         padding: 10,
-        overflowY: "scroll",
-    },
-    body:{
-        flex: 1,
-        alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        minWidth: "100%"
+        //overflowY: "scroll",
     },
     footer:{
         position: "absolute",

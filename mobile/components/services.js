@@ -30,9 +30,9 @@ export default class Services extends Component{
     }
 
     render() {
-        return <ScrollView style={styles.body}>
+        return <View style={styles.body}>
             {this.state.services.map(x=><ServiceElement data={x} key={x.Id}/>)}
-        </ScrollView>;
+        </View>;
     }
 }
 
