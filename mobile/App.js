@@ -30,6 +30,14 @@ export default class App extends Component{
                     </View>
 
                 </View>
+                <View style={styles.footer}>
+                    <View style={{minWidth: "49%"}}>
+                        <Button title={"Tracker"}/>
+                    </View>
+                    <View style={{minWidth: "49%"}}>
+                        <Button title={"About"}/>
+                    </View>
+                </View>
                 {/*<StatusBar style="auto"/>*/}
             </View>
         );
@@ -75,5 +83,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         minWidth: "100%"
+    },
+    footer:{
+        position: "absolute",
+        bottom: 0,
+        backgroundColor: theme.bgSecondary,
+        minWidth: windowHeight * tarAspect,
+        minHeight: "5%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "1%"
+
     }
 });
