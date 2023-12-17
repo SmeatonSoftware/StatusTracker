@@ -31,7 +31,7 @@ export default class Services extends Component{
 
     render() {
         return <View style={styles.body}>
-            {this.state.services.map(x=><ServiceElement data={x} key={x.Id}/>)}
+            {this.state.services.map(x=><ServiceElement refresh={()=>this.refresh()} data={x} key={x.Id}/>)}
         </View>;
     }
 }

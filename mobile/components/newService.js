@@ -18,7 +18,7 @@ export default class NewService extends Component{
         await r.executeWithCallback(
             (d)=> {
                 that.setState({newUrl: ""});
-                document.location.reload();
+                that.props.refresh();
             },
             (d)=> {console.log(d)},
             true,
@@ -42,7 +42,7 @@ export default class NewService extends Component{
                 </View>
                 <View style={{minWidth: "1%"}}/>
                 <View style={{minWidth: "49%"}}>
-                    <Button color={theme.buttonSecondary} title={"Refresh"} onPress={x=>document.location.reload()}/>
+                    <Button color={theme.buttonSecondary} title={"Refresh"} onPress={x=>this.props.refresh()}/>
                 </View>
             </Padd>
         </View>;

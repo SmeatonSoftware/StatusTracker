@@ -20,13 +20,18 @@ export default class App extends Component{
         this.state = {page: "",smeatonStatus: {UpForMS: 0}};
     }
 
+    refresh(that){
+        console.log(window);
+        window.location.reload(false);
+    }
+
     getPage(){
         switch (this.state.page){
             default:
-                return <Trackers/>;
+                return <Trackers refresh={()=>this.refresh(this)}/>;
 
             case "info":
-                return <Info/>;
+                return <Info refresh={()=>this.refresh(this)}/>;
         }
 
     }

@@ -55,7 +55,7 @@ export default class ServiceElement extends Component{
 
         await r.executeWithCallback(
             (d)=> {
-                document.location.reload();
+                this.props.refresh();
             },
             (d)=> {console.log(d)},
             true,

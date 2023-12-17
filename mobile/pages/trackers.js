@@ -6,10 +6,14 @@ import NewService from "../components/newService";
 import Services from "../components/services";
 
 export default class Trackers extends Component{
+    constructor(props) {
+        super(props);
+    }
+
     render(){
         return <View style={styles.body}>
-                <NewService/>
-                <Services/>
+                <NewService refresh={this.props.refresh}/>
+                <Services refresh={this.props.refresh}/>
         </View>;
     }
 }
