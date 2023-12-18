@@ -10,6 +10,7 @@ namespace StatusTracker.Data
         public static DataEngine<RequestLog> requestLogEngine;
         public static DataEngine<TargetService> targetServiceEngine;
         public static DataEngine<PingResult> pingResultEngine;
+        public static DataEngine<Identity> identityEngine;
 
         #region Fields
 
@@ -28,6 +29,7 @@ namespace StatusTracker.Data
             requestLogEngine = new DataEngine<RequestLog>(db.GetCollection<RequestLog>());
             targetServiceEngine = new DataEngine<TargetService>(db.GetCollection<TargetService>());
             pingResultEngine = new DataEngine<PingResult>(db.GetCollection<PingResult>());
+            identityEngine = new DataEngine<Identity>(db.GetCollection<Identity>());
         }
 
         #endregion Methods

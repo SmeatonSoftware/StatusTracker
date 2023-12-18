@@ -26,9 +26,9 @@ namespace StatusTracker.Data
 
         #region Methods
 
-        public async void Add(T item)
+        public Task Add(T item)
         {
-            await table.InsertAsync(item);
+            return table.InsertAsync(item);
         }
 
         public async Task<int> Count(Expression<Func<T, bool>> filter)
