@@ -22,6 +22,7 @@ import Trackers from "./pages/trackers";
 import Info from "./pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {Entypo} from "@expo/vector-icons";
+import Home from "./pages/home";
 
 const { StatusBarManager } = NativeModules;
 
@@ -29,23 +30,41 @@ export default class App extends Component{
     constructor(props) {
         super(props);
 
-        this.state = {page: "",smeatonStatus: {UpForMS: 0}};
+        this.state = {page: "" , pageObj: null,smeatonStatus: {UpForMS: 0}};
+    }
+
+    componentDidMount() {
+        this.setPage();
+    }
+
+    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
+        if (this.state.page != prevState.page) {
+            this.setPage();
+        }
     }
 
     refresh(that){
-        console.log(window);
-        window.location.reload(false);
+        that.setState({pageObj: <View></View>});
+        setTimeout(x=>that.setPage(), 1000);
     }
 
-    getPage(){
+    setPage(){
+        let p = <View></View>
         switch (this.state.page){
             default:
-                return <Trackers refresh={()=>this.refresh(this)}/>;
+                p = <Home refresh={()=>this.refresh(this)}/>
+                break;
+
+            case "trackers":
+                p = <Trackers refresh={()=>this.refresh(this)}/>;
+                break;
 
             case "info":
-                return <Info refresh={()=>this.refresh(this)}/>;
+                p = <Info refresh={()=>this.refresh(this)}/>;
+                break;
         }
 
+        this.setState({pageObj: p});
     }
 
     render() {
@@ -57,12 +76,12 @@ export default class App extends Component{
                         <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
                     <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
-                        {this.getPage()}
+                        {this.state.pageObj}
                     </ScrollView>
                 </View>
 
                 <View style={styles.footer}>
-                    <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
+                    <TouchableHighlight onPress={x=>this.setState({page: "trackers"})} style={styles.navBox}>
                         <Entypo name="bar-graph" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
