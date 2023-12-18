@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {ScrollView, View, Text, StyleSheet} from "react-native";
-import APIRequest from "./request";
+import APIRequest from "../services/request";
 import ServiceElement from "./serviceElement";
 
 export default class Services extends Component{

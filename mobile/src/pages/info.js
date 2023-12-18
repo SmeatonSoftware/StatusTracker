@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
-import {theme} from "../components/theme";
+import {theme} from "../theme";
 import Padd from "../components/padd";
 import {AntDesign} from "@expo/vector-icons";
 

@@ -1,8 +1,8 @@
 import {Component} from "react";
 import {StyleSheet, TextInput, View, Text, Button} from "react-native";
-import APIRequest from "./request";
+import APIRequest from "../services/request";
 import Padd from "./padd";
-import {theme} from "./theme";
+import {theme} from "../theme";
 
 export default class NewService extends Component{
     constructor(props) {

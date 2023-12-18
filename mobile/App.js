@@ -10,19 +10,19 @@ import {
     TouchableHighlight,
     View
 } from 'react-native';
-import ProgressBar from "./components/progressBar";
-import Padd from "./components/padd";
+import ProgressBar from "./src/components/progressBar";
+import Padd from "./src/components/padd";
 import {Component} from "react";
-import APIRequest from "./components/request";
-import Services from "./components/services";
-import NewService from "./components/newService";
-import {theme} from "./components/theme";
+import APIRequest from "./src/services/request";
+import Services from "./src/components/services";
+import NewService from "./src/components/newService";
+import {theme} from "./src/theme";
 
-import Trackers from "./pages/trackers";
-import Info from "./pages/info";
+import Trackers from "./src/pages/trackers";
+import Info from "./src/pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {Entypo} from "@expo/vector-icons";
-import Home from "./pages/home";
+import Home from "./src/pages/home";
 
 const { StatusBarManager } = NativeModules;
 

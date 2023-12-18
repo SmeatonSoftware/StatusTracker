@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {StyleSheet, Text, View} from "react-native";
-import {theme} from "../components/theme";
+import {theme} from "../theme";
 import Padd from "../components/padd";
 import NewService from "../components/newService";
 import Services from "../components/services";
