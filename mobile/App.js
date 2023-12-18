@@ -1,5 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View} from 'react-native';
+import {
+    Button,
+    Dimensions,
+    NativeModules,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableHighlight,
+    View
+} from 'react-native';
 import ProgressBar from "./components/progressBar";
 import Padd from "./components/padd";
 import {Component} from "react";
@@ -12,6 +22,8 @@ import Trackers from "./pages/trackers";
 import Info from "./pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {Entypo} from "@expo/vector-icons";
+
+const { StatusBarManager } = NativeModules;
 
 export default class App extends Component{
     constructor(props) {
@@ -39,7 +51,8 @@ export default class App extends Component{
     render() {
         return (
             <View style={styles.outer}>
-                <View style={styles.container}>
+                <StatusBar style="light"/>
+                <View style={{...styles.container, marginTop: StatusBarManager.HEIGHT}} >
                     <View style={styles.topBar}>
                         <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
@@ -56,7 +69,6 @@ export default class App extends Component{
                         <Entypo name="info-with-circle" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                 </View>
-                {/*<StatusBar style="auto"/>*/}
             </View>
         );
     }
@@ -103,7 +115,7 @@ const styles = StyleSheet.create({
         maxHeight: windowHeight,
         maxWidth: windowHeight * tarAspect,
         minWidth: windowHeight * tarAspect,
-        padding: 10,
+        padding: 10
         //overflowY: "scroll",
     },
     footer:{
