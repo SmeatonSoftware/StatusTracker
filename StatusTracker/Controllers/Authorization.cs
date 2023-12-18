@@ -30,13 +30,51 @@ namespace StatusTracker.Controllers
             return s;
         }
 
+        public static async Task<Identity> IdentityFromHeader(RequestContext context)
+        {
+            var head = context.context.Request.Headers;
+
+            var id = head.Get("id");
+            var key = head.Get("key");
+
+            if (id.Length>0 && key.Length>0 && int.TryParse(id, out var _id))
+            {
+                var youare = await DataEngineMangment.identityEngine.Get(_id);
+
+                if (youare != null && encoder.Compare(key, youare.CookieKey))
+                {
+                    return youare;
+                }
+            }
+
+            return null;
+        }
+
+        public static async Task<ResponseState> CheckAuth(RequestContext context)
+        {
+            var identity = await Authorization.IdentityFromHeader(context);
+            
+            if (identity != null)
+            {
+                identity.CookieKey = "";
+            }
+
+            return new ResponseState()
+            {
+                status = 200,
+                data = identity,
+                message = identity == null ? "No Auth" : "Have Auth"
+            };
+
+        }
+
         public static async Task<ResponseState> ConfirmAuth(RequestContext context)
         {
             var iam = context.GetBody<Identity>();
 
             var youare = await DataEngineMangment.identityEngine.Get(iam.Id);
 
-            if (youare == null)
+            if (youare == null || iam.CookieKey == null || iam.CookieKey.Length == 0)
             {
                 iam.CookieKey = RandomString();
                 youare = new Identity(iam.Username, encoder.Encode(iam.CookieKey));
