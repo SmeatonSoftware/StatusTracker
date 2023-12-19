@@ -21,9 +21,10 @@ import {theme} from "./src/theme";
 import Trackers from "./src/pages/trackers";
 import Info from "./src/pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {Entypo} from "@expo/vector-icons";
+import {Entypo, Feather, FontAwesome5, Fontisto, Foundation, MaterialCommunityIcons} from "@expo/vector-icons";
 import Home from "./src/pages/home";
 import Authentication from "./src/services/authentication";
+import User from "./src/pages/user";
 
 const { StatusBarManager } = NativeModules;
 
@@ -63,6 +64,10 @@ export default class App extends Component{
             case "info":
                 p = <Info refresh={()=>this.refresh(this)}/>;
                 break;
+
+            case "user":
+                p = <User refresh={()=>this.refresh(this)}/>;
+                break;
         }
 
         this.setState({pageObj: p});
@@ -84,11 +89,17 @@ export default class App extends Component{
                 </View>
 
                 <View style={styles.footer}>
+                    <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
+                        <MaterialCommunityIcons name="home" size={55} color={theme.textPrimary}/>
+                    </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "trackers"})} style={styles.navBox}>
                         <Entypo name="bar-graph" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
-                        <Entypo name="info-with-circle" size={50} color={theme.textPrimary}/>
+                        <Foundation name="info" size={55} color={theme.textPrimary}/>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={x=>this.setState({page: "user"})} style={styles.navBox}>
+                        <FontAwesome5 name="user-cog" size={47} color={theme.textPrimary}/>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -105,15 +116,16 @@ const tarAspect = Math.min(windowAspect, maxAspect);
 
 const styles = StyleSheet.create({
     navBox:{
-        width: "47%",
+        width: "21%",
+        minHeight: "100%",
         alignItems: "center",
-        shadowColor: '#171717',
-        shadowOffset: {width: 3, height: 5},
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        borderColor: "white",
-        borderWidth: 1,
-        borderRadius: 5,
+        // shadowColor: '#171717',
+        // shadowOffset: {width: 0, height: 1},
+        // shadowOpacity: 0.5,
+        // shadowRadius: 4,
+        // borderColor: "white",
+        // borderWidth: 1,
+        // borderRadius: 5,
         padding: 3
     },
     topBar:{
