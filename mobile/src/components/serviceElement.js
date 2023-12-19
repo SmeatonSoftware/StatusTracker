@@ -1,10 +1,10 @@
 import {Component} from "react";
-import {ScrollView, View, Text, StyleSheet, Button} from "react-native";
+import {Button, StyleSheet, Text, View} from "react-native";
 import APIRequest from "../services/request";
 import Padd from "./padd";
 import {theme} from "../theme";
 
-export default class ServiceElement extends Component{
+export default class ServiceElement extends Component {
     constructor(props) {
         super(props);
 
@@ -12,7 +12,7 @@ export default class ServiceElement extends Component{
             pingLog: [],
             pingStats: {
                 minMs: 0,
-                maxMs:0,
+                maxMs: 0,
                 avgMs: 0,
                 failures: 0,
                 total: 0
@@ -21,43 +21,49 @@ export default class ServiceElement extends Component{
         }
     }
 
-    async refreshLog(){
+    async refreshLog() {
         let that = this;
-        let r = new APIRequest("pings/recent?service="+this.props.data.Id+"&small=true&count="+this.state.lim, "", "GET")
+        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=" + this.state.lim, "", "GET")
 
         await r.executeWithCallback(
-            (d)=> {
+            (d) => {
                 that.setState({pingLog: d.data});
             },
-            (d)=> {console.log(d)},
+            (d) => {
+                console.log(d)
+            },
             true,
             {}
         );
     }
 
-    async refreshStats(){
+    async refreshStats() {
         let that = this;
-        let r = new APIRequest("pings/stats?service="+this.props.data.Id+"&count="+this.state.lim, "", "GET")
+        let r = new APIRequest("pings/stats?service=" + this.props.data.Id + "&count=" + this.state.lim, "", "GET")
 
         await r.executeWithCallback(
-            (d)=> {
+            (d) => {
                 that.setState({pingStats: d.data});
             },
-            (d)=> {console.log(d)},
+            (d) => {
+                console.log(d)
+            },
             true,
             {}
         );
     }
 
-    async delete(){
+    async delete() {
         let that = this;
-        let r = new APIRequest("services/delete?service="+this.props.data.Id, "", "DELETE")
+        let r = new APIRequest("services/delete?service=" + this.props.data.Id, "", "DELETE")
 
         await r.executeWithCallback(
-            (d)=> {
+            (d) => {
                 this.props.refresh();
             },
-            (d)=> {console.log(d)},
+            (d) => {
+                console.log(d)
+            },
             true,
             {}
         );
@@ -68,15 +74,15 @@ export default class ServiceElement extends Component{
         await this.refreshLog();
     }
 
-    getBar(x, idx){
+    getBar(x, idx) {
         let log = this.state.pingLog;
 
-        let msDiff =  this.state.pingStats.maxMs -  this.state.pingStats.minMs + 10;
+        let msDiff = this.state.pingStats.maxMs - this.state.pingStats.minMs + 10;
 
         let _x = x - this.state.pingStats.minMs + 5;
 
         let height = Math.sqrt(_x) / Math.sqrt(msDiff) * 100;
-        let width = 1/log.length*100;
+        let width = 1 / log.length * 100;
 
         let colour = "green";
 
@@ -86,22 +92,28 @@ export default class ServiceElement extends Component{
         else if (height > 70)
             colour = "orange"
 
-        if (x == -1)
-        {
+        if (x == -1) {
             colour = "silver";
             height = 50;
         }
 
-        return <View style={{backgroundColor: colour, minWidth: width+"%", minHeight: height+"%", marginTop: "auto", borderWidth: 1, borderColor: "black"}} key={idx}><Text></Text></View>
+        return <View style={{
+            backgroundColor: colour,
+            minWidth: width + "%",
+            minHeight: height + "%",
+            marginTop: "auto",
+            borderWidth: 1,
+            borderColor: "black"
+        }} key={idx}><Text></Text></View>
     }
 
     render() {
         let s = this.props.data;
         return <View style={styles.body}>
             <View style={styles.graph}>
-                {this.state.pingLog.map((x, idx)=>this.getBar(x,idx))}
+                {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
             </View>
-            <Text style={{fontWeight:"bold", ...styles.text}}>{s.url}</Text>
+            <Text style={{fontWeight: "bold", ...styles.text}}>{s.url}</Text>
             <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
                 <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
@@ -121,21 +133,22 @@ export default class ServiceElement extends Component{
                 </Padd>
             </View>
             <Padd>
-                <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}} onPress={x=>this.delete()}/>
+                <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                        onPress={x => this.delete()}/>
             </Padd>
         </View>
     }
 }
 
 const styles = StyleSheet.create({
-    padd:{
+    padd: {
         minWidth: "20%"
     },
-    text:{
+    text: {
         textAlign: "center",
         color: theme.textPrimary
     },
-    body:{
+    body: {
         flex: 1,
         alignSelf: "center",
         //justifyContent: "center",
@@ -147,7 +160,7 @@ const styles = StyleSheet.create({
         //paddingBottom: "35%"
         paddingBottom: "2%"
     },
-    graph:{
+    graph: {
         flex: 1,
         alignItems: "flex-start",
         backgroundColor: theme.bgGraph,

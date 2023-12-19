@@ -45,7 +45,7 @@ export default class APIRequest {
                 }
             }
         ).catch(
-            x=>console.error(x)
+            x => console.error(x)
         )
     }
 }

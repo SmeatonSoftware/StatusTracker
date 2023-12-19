@@ -1,7 +1,7 @@
 import {Component} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 
-export default class Padd extends Component{
+export default class Padd extends Component {
 
     render() {
         return <View style={{...styles.pad, ...this.props.style}}>
@@ -11,7 +11,7 @@ export default class Padd extends Component{
 }
 
 const styles = StyleSheet.create({
-    pad:{
+    pad: {
         margin: 5,
         minWidth: "100%"
     }

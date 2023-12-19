@@ -1,24 +1,26 @@
 import {Component} from "react";
-import {ScrollView, View, Text, StyleSheet} from "react-native";
+import {StyleSheet, View} from "react-native";
 import APIRequest from "../services/request";
 import ServiceElement from "./serviceElement";
 
-export default class Services extends Component{
+export default class Services extends Component {
     constructor(props) {
         super(props);
 
         this.state = {services: []}
     }
 
-    async refresh(){
+    async refresh() {
         let that = this;
         let r = new APIRequest("services/all", "", "GET")
 
         await r.executeWithCallback(
-            (d)=> {
+            (d) => {
                 that.setState({services: d.data});
             },
-            (d)=> {console.log(d)},
+            (d) => {
+                console.log(d)
+            },
             true,
             {}
         );
@@ -26,18 +28,18 @@ export default class Services extends Component{
 
     componentDidMount() {
         this.refresh();
-        setInterval(x=>this.refresh(), 60000);
+        setInterval(x => this.refresh(), 60000);
     }
 
     render() {
         return <View style={styles.body}>
-            {this.state.services.map(x=><ServiceElement refresh={()=>this.refresh()} data={x} key={x.Id}/>)}
+            {this.state.services.map(x => <ServiceElement refresh={() => this.refresh()} data={x} key={x.Id}/>)}
         </View>;
     }
 }
 
 const styles = StyleSheet.create({
-    body:{
+    body: {
         //height: "100%",
         minWidth: "100%"
     }

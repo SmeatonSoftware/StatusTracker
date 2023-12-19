@@ -22,10 +22,10 @@ echo "Copying artifacts to /app"
 cp -r ./mobile/web-build/ ./app/site/
 cp -r ./mobile/app-build/ ./app/site/builds/
 
-echo "Created app.zip"
-7z a app.zip ./app
+#echo "Created app.zip"
+#7z a app.zip ./app
 
-echp "Cleaning Up";
+echo "Cleaning Up";
 rm -r -f ./mobile/web-build
 rm -r -f ./mobile/app-build
 

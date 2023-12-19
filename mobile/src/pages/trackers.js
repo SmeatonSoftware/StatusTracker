@@ -1,25 +1,23 @@
 import {Component} from "react";
-import {StyleSheet, Text, View} from "react-native";
-import {theme} from "../theme";
-import Padd from "../components/padd";
+import {StyleSheet, View} from "react-native";
 import NewService from "../components/newService";
 import Services from "../components/services";
 
-export default class Trackers extends Component{
+export default class Trackers extends Component {
     constructor(props) {
         super(props);
     }
 
-    render(){
+    render() {
         return <View style={styles.body}>
-                <NewService refresh={this.props.refresh}/>
-                <Services refresh={this.props.refresh}/>
+            <NewService refresh={this.props.refresh}/>
+            <Services refresh={this.props.refresh}/>
         </View>;
     }
 }
 
 const styles = StyleSheet.create({
-    body:{
+    body: {
         flex: 1,
         alignSelf: "center",
         justifyContent: "flex-start",
