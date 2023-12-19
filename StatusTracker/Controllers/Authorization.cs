@@ -93,7 +93,9 @@ namespace StatusTracker.Controllers
                 };
             }
 
+            iam.Id = youare.Id;
             iam.CookieKey = RandomString();
+            iam.Password = "";
 
             youare.CookieKey = encoder.Encode(iam.CookieKey + youare.Salt);
 
@@ -137,6 +139,7 @@ namespace StatusTracker.Controllers
             await DataEngineMangment.identityEngine.Add(youare);
 
             iam.Id = youare.Id;
+            iam.Password = "";
 
             return new ResponseState()
             {

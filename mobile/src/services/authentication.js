@@ -14,21 +14,14 @@ export default class Authentication extends Component{
         enableCache: true,
 
         storageBackend: window == null ? AsyncStorage : window.localStorage,
-
-
-        // if data was not found in storage or expired data was found,
-        // the corresponding sync method will be invoked returning
-        // the latest data.
-        sync: {
-            // we'll talk about the details later.
-        }
+        sync: {}
     });
 
     constructor(props) {
         super(props);
 
         this.state = {
-            identity: {Username: ""}, hasAuth: false
+            identity: {Email: "", Password: ""}, hasAuth: false, errorText: ""
         };
     }
 
@@ -47,7 +40,6 @@ export default class Authentication extends Component{
         if (this.state.identity != prevState.identity){
             Authentication.Identity = this.state.identity;
             Authentication.StorageManager.save({key: "identity", data: this.state.identity});
-            console.log(this.state.identity);
         }
     }
 
@@ -59,38 +51,68 @@ export default class Authentication extends Component{
             :
             <View>
                 <Text>No Auth</Text>
-                <TextInput onChangeText={x => this.setState({identity:{Username: x}})} style={{backgroundColor: theme.bgSecondary}}/>
-                <Button color={theme.buttonPrimary} title={"Login"} onPress={x=>this.LoadIdentity()}/>
+                <TextInput onChangeText={x => this.setState({identity:{...this.state.identity,Email: x}})} style={{backgroundColor: theme.bgSecondary}}/>
+                <TextInput onChangeText={x => this.setState({identity:{...this.state.identity,Password: x}})} style={{backgroundColor: theme.bgSecondary}}/>
+                <Button color={theme.buttonPrimary} title={"Login"} onPress={x=>this.SignIn()}/>
+                <Button color={theme.buttonPrimary} title={"Signup"} onPress={x=>this.SignUp()}/>
+                <Text>{this.state.errorText}</Text>
             </View>;
+    }
+
+    async SignUp(){
+        let that = this;
+
+        let r = new APIRequest("auth/signup", that.state.identity, "POST");
+
+        await r.executeWithCallback(
+            (d) => {
+                that.setState({identity: d.data, good: true});
+            },
+            (d) => {
+                that.setState({errorText: d.message});
+            },
+            true,
+            {}
+        );
+
+
+    }
+
+    async SignIn(){
+        let that = this;
+
+        let r = new APIRequest("auth/signin", that.state.identity, "POST");
+
+        await r.executeWithCallback(
+            (d) => {
+                that.setState({identity: d.data, good: true});
+            },
+            (d) => {
+                that.setState({errorText: d.message});
+            },
+            true,
+            {}
+        );
+
     }
 
     async LoadIdentity(_identity) {
         let that = this;
+        console.log(_identity)
 
-        console.log(_identity);
-
-        let r = new APIRequest("auth/confirm", _identity, "POST");
+        let r = new APIRequest("auth/check", "", "GET");
 
         await r.executeWithCallback(
             (d) => {
                 that.setState({identity: _identity, good: true});
             },
             (d) => {
-                switch (d.status) {
-                    case 201:
-                        that.setState({identity: d.data, good: true});
-
-                        break;
-
-                    case 401:
-                        that.setState({identity: null, good: false});
-
-                        break;
-                }
-                console.warn(d)
             },
             true,
-            {}
+            {
+                id: _identity.Id,
+                key: _identity.CookieKey
+            }
         );
     }
 }
