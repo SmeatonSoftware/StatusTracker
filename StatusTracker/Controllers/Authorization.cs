@@ -122,6 +122,15 @@ namespace StatusTracker.Controllers
                 };
             }
 
+            if (iam.Email.Length == 0 || iam.Email.Count(x=>x=='@')!=1 || !iam.Email.Split('@')[1].Contains('.'))
+            {
+                return new ResponseState()
+                {
+                    status = 401,
+                    message = "Email Appears Faulty"
+                };
+            }
+
             if (iam.Password.Length == 0)
             {
                 return new ResponseState()

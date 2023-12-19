@@ -6,5 +6,8 @@ export const theme = {
     textSecondary: "limegreen",
     buttonPrimary: "cornflowerblue",
     buttonSecondary: "limegreen",
-    bgGraph: "#666"
+    bgGraph: "#666",
+    success: "green",
+    warning: "yellow",
+    danger: "red"
 };

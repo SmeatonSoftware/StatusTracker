@@ -1,9 +1,10 @@
 import APIRequest from "./request";
 import {Component} from "react";
-import {View, Text, TextInput, Button} from "react-native";
+import {View, Text, TextInput, Button, StyleSheet} from "react-native";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {theme} from "../theme";
+import Padd from "../components/padd";
 
 
 export default class Authentication extends Component{
@@ -41,7 +42,6 @@ export default class Authentication extends Component{
     }
 
     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-        console.log(this.state.identity);
         if (this.state.identity != prevState.identity){
             Authentication.Identity = this.state.identity;
             Authentication.StorageManager.save({key: "identity", data: this.state.identity});
@@ -54,13 +54,25 @@ export default class Authentication extends Component{
                 {this.props.children}
             </View>
             :
-            <View>
-                <Text>No Auth</Text>
-                <TextInput onChangeText={x => this.setState({identity:{...this.state.identity,Email: x}})} style={{backgroundColor: theme.bgSecondary}}/>
-                <TextInput onChangeText={x => this.setState({identity:{...this.state.identity,Password: x}})} style={{backgroundColor: theme.bgSecondary}}/>
-                <Button color={theme.buttonPrimary} title={"Login"} onPress={x=>this.SignIn()}/>
-                <Button color={theme.buttonPrimary} title={"Signup"} onPress={x=>this.SignUp()}/>
-                <Text>{this.state.errorText}</Text>
+            <View style={styles.body}>
+                <Padd style={{alignItems: "center", minWidth: "100%"}}>
+                    <Text style={styles.text}>Email</Text>
+                    <TextInput style={styles.input} value={this.state.identity.Email} onChangeText={x=>this.setState({identity:{...this.state.identity,Email: x}})}/>
+                </Padd>
+                <Padd style={{alignItems: "center", minWidth: "100%"}}>
+                    <Text style={styles.text}>Password</Text>
+                    <TextInput style={styles.input} value={this.state.identity.Password} onChangeText={x=>this.setState({identity:{...this.state.identity,Password: x}})}/>
+                </Padd>
+                <Padd style={{paddingTop: 10, paddingBottom: 10, flexDirection: "row", justifyContent: "space-evenly", minWidth: "100%"}}>
+                    <View style={{minWidth: "49%"}}>
+                        <Button color={theme.buttonPrimary} title={"Login"} onPress={x=>this.SignIn()}/>
+                    </View>
+                    <View style={{minWidth: "1%"}}/>
+                    <View style={{minWidth: "49%"}}>
+                        <Button color={theme.buttonPrimary} title={"Signup"} onPress={x=>this.SignUp()}/>
+                    </View>
+                </Padd>
+                <Text style={{...styles.text, color: theme.danger}}>{this.state.errorText}</Text>
             </View>;
     }
 
@@ -120,3 +132,27 @@ export default class Authentication extends Component{
         );
     }
 }
+
+const styles = StyleSheet.create({
+    body:{
+        flex: 1,
+        paddingTop: "45%",
+        minWidth: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    text:{
+        fontSize: 20,
+        color: theme.textPrimary,
+        fontWeight: "bold"
+    },
+    input:{
+        backgroundColor: theme.bgSecondary,
+        color: theme.textPrimary,
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 5,
+        minWidth: "100%",
+        padding: 10
+    }
+});
