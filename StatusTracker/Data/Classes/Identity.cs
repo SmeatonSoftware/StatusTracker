@@ -11,14 +11,16 @@ namespace StatusTracker.Data.Classes
         public string Email { get; set; }
         public string Password { get; set; }
         public string CookieKey { get; set; }
+        public string Salt { get; set; }
 
         public Identity() { }
 
-        public Identity(string email, string password, string cookieKey)
+        public Identity(string email, string password, string cookieKey, string salt)
         {
             Email = email;
             Password = password;
             CookieKey = cookieKey;
+            Salt = salt;
         }
     }
 }

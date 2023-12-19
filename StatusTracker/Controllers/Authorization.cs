@@ -41,7 +41,7 @@ namespace StatusTracker.Controllers
             {
                 var youare = await DataEngineMangment.identityEngine.Get(_id);
 
-                if (youare != null && encoder.Compare(key, youare.CookieKey))
+                if (youare != null && encoder.Compare(key + youare.Salt, youare.CookieKey))
                 {
                     return youare;
                 }
@@ -57,55 +57,92 @@ namespace StatusTracker.Controllers
             if (identity != null)
             {
                 identity.CookieKey = "";
+                identity.Password = "";
+                identity.Salt = "";
             }
 
             return new ResponseState()
             {
-                status = 200,
+                status = identity == null ? 401 : 200,
                 data = identity,
                 message = identity == null ? "No Auth" : "Have Auth"
             };
-
         }
 
-        public static async Task<ResponseState> ConfirmAuth(RequestContext context)
+        public static async Task<ResponseState> Signin(RequestContext context)
         {
             var iam = context.GetBody<Identity>();
 
-            if (iam == null || iam.Email.Length == 0) return new ResponseState()
-            {
-                status = 401,
-                message = "No Auth"
-            };
+            var youare = await DataEngineMangment.identityEngine.TryFind(x => x.Email == iam.Email);
 
-            var youare = await DataEngineMangment.identityEngine.Get(iam.Id);
-
-            if (youare == null || iam.CookieKey == null || iam.CookieKey.Length == 0)
-            {
-                iam.CookieKey = RandomString();
-                youare = new Identity(iam.Email, iam.Password, encoder.Encode(iam.CookieKey));
-                await DataEngineMangment.identityEngine.Add(youare);
-                
-                return new ResponseState()
-                {
-                    status = 201,
-                    message = "Created New Auth",
-                    data = new Identity(iam.Email, iam.Password, iam.CookieKey) { Id = youare.Id }
-                };
-            }
-            else if (!encoder.Compare(iam.CookieKey, youare.CookieKey))
+            if (youare == null)
             {
                 return new ResponseState()
                 {
                     status = 401,
-                    message = "No Auth"
+                    message = "Account Doesnt Exist"
                 };
             }
+
+            if (!encoder.Compare(iam.Password + youare.Salt, youare.Password))
+            {
+                return new ResponseState()
+                {
+                    status = 401,
+                    message = "Password Wrong"
+                };
+            }
+
+            iam.CookieKey = RandomString();
+
+            youare.CookieKey = encoder.Encode(iam.CookieKey + youare.Salt);
+
+            DataEngineMangment.identityEngine.Update(youare);
 
             return new ResponseState()
             {
                 status = 200,
-                message = "Existing Auth Accepted"
+                message = "Signed in",
+                data = iam
+            };
+        }
+
+        public static async Task<ResponseState> Signup(RequestContext context)
+        {
+            var iam = context.GetBody<Identity>();
+
+            if (await DataEngineMangment.identityEngine.TryFind(x => x.Email == iam.Email) != null)
+            {
+                return new ResponseState()
+                {
+                    status = 401,
+                    message = "Account Exists"
+                };
+            }
+
+            if (iam.Password.Length == 0)
+            {
+                return new ResponseState()
+                {
+                    status = 401,
+                    message = "Stronger Password Please"
+                };
+            }
+
+            iam.CookieKey = RandomString();
+            iam.Salt = RandomString(8);
+
+            var youare = new Identity(iam.Email, encoder.Encode(iam.Password+iam.Salt), encoder.Encode(iam.CookieKey+iam.Salt), iam.Salt);
+
+            await DataEngineMangment.identityEngine.Add(youare);
+
+            iam.Id = youare.Id;
+
+            return new ResponseState()
+            {
+                status = 200,
+                message = "Signed up",
+                data = iam
             };
         }
     }

@@ -44,7 +44,8 @@ namespace StatusTracker
             RequestRegistrar.Register(new RequestFunc("/api/pings/stats", "GET", Controllers.PingStats.Stats/*, new TimeSpan(0, 1, 0)*/));
 
             RequestRegistrar.Register(new RequestFunc("/api/auth/check", "GET", Controllers.Authorization.CheckAuth));
-            RequestRegistrar.Register(new RequestFunc("/api/auth/confirm", "POST", Controllers.Authorization.ConfirmAuth));
+            RequestRegistrar.Register(new RequestFunc("/api/auth/signin", "POST", Controllers.Authorization.Signin));
+            RequestRegistrar.Register(new RequestFunc("/api/auth/signup", "POST", Controllers.Authorization.Signup));
         }
 
         private static void Main(string[] args)
