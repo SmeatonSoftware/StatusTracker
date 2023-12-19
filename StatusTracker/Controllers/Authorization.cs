@@ -72,6 +72,12 @@ namespace StatusTracker.Controllers
         {
             var iam = context.GetBody<Identity>();
 
+            if (iam == null || iam.Username.Length == 0) return new ResponseState()
+            {
+                status = 401,
+                message = "No Auth"
+            };
+
             var youare = await DataEngineMangment.identityEngine.Get(iam.Id);
 
             if (youare == null || iam.CookieKey == null || iam.CookieKey.Length == 0)

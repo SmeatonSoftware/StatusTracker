@@ -23,6 +23,7 @@ import Info from "./src/pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {Entypo} from "@expo/vector-icons";
 import Home from "./src/pages/home";
+import Authentication from "./src/services/authentication";
 
 const { StatusBarManager } = NativeModules;
 
@@ -71,12 +72,14 @@ export default class App extends Component{
         return (
             <View style={styles.outer}>
                 <StatusBar style="light"/>
-                <View style={{...styles.container, marginTop: StatusBarManager.HEIGHT}} >
+                <View style={{...styles.container, marginTop: StatusBarManager != null ? StatusBarManager.HEIGHT : 0}} >
                     <View style={styles.topBar}>
                         <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
                     <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
-                        {this.state.pageObj}
+                        <Authentication>
+                            {this.state.pageObj}
+                        </Authentication>
                     </ScrollView>
                 </View>
 
