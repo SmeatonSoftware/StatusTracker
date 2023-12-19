@@ -7,7 +7,7 @@ import {theme} from "../theme";
 
 
 export default class Authentication extends Component{
-    static Identity = {};
+    static Identity = null
     static StorageManager = new Storage({
         size: 1000,
         defaultExpires: 1000 * 3600 * 24 * 30,
@@ -27,6 +27,11 @@ export default class Authentication extends Component{
 
     componentDidMount() {
         let that = this;
+
+        if (Authentication.Identity!=null){
+            that.setState({identity: Authentication.Identity, hasAuth: true});
+        }
+
         Authentication.StorageManager.load({key: "identity"})
             .then(d=>{
                 that.LoadIdentity(d);
@@ -98,7 +103,6 @@ export default class Authentication extends Component{
 
     async LoadIdentity(_identity) {
         let that = this;
-        console.log(_identity)
 
         let r = new APIRequest("auth/check", "", "GET");
 
