@@ -1,5 +1,7 @@
-export const baseUrl = "https://status.smeatonsoftware.co.uk/api/";
-//export const baseUrl = "http://192.168.1.91:8080/api/";
+//export const baseUrl = "https://status.smeatonsoftware.co.uk/api/";
+import Authentication from "./authentication";
+
+export const baseUrl = "http://192.168.1.91:8080/api/";
 
 export default class APIRequest {
     constructor(path, body, method) {
@@ -28,6 +30,11 @@ export default class APIRequest {
             ...headers,
             "Content-Type": "application/json"
         } : {...headers};
+
+        head = {...head,
+                id: Authentication.Identity.Id,
+                key: Authentication.Identity.CookieKey
+        };
 
         let optn = {
             method: this.method,

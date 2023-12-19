@@ -37,7 +37,7 @@ namespace StatusTracker.Controllers
             var id = head.Get("id");
             var key = head.Get("key");
 
-            if (id.Length>0 && key.Length>0 && int.TryParse(id, out var _id))
+            if (id != null && key != null && id.Length>0 && key.Length>0 && int.TryParse(id, out var _id))
             {
                 var youare = await DataEngineMangment.identityEngine.Get(_id);
 

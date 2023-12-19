@@ -12,13 +12,16 @@ namespace StatusTracker.Data.Classes
         public TimeSpan runFrequency { get; set; }
         public DateTime lastRun { get; set; }
 
+        public int identityCreated {  get; set; }
+
         public TargetService() { }
 
-        public TargetService(string url, TimeSpan runFrequency)
+        public TargetService(string url, TimeSpan runFrequency, Identity identity)
         {
             this.url = url;
             this.runFrequency = runFrequency;
             this.lastRun = DateTime.MinValue;
+            this.identityCreated = identity.Id;
         }
     }
 }

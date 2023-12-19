@@ -45,6 +45,17 @@ namespace StatusTracker.Controllers
                 };
             }
 
+            var iden = await Authorization.IdentityFromHeader(context);
+
+            if (iden == null || service.identityCreated != iden.Id)
+            {
+                return new ResponseState()
+                {
+                    message = "You Didnt Create This.",
+                    status = 401
+                };
+            }
+
             await DataEngineMangment.pingResultEngine.table.DeleteManyAsync(x => x.TargetServiceId == serviceId);
             await DataEngineMangment.targetServiceEngine.Remove(serviceId);
 
@@ -56,6 +67,7 @@ namespace StatusTracker.Controllers
 
         public static async Task<ResponseState> AddOrUpdate(RequestContext context)
         {
+
             var url = context.GetBody().Trim('\"');
 
             var query = context.context.Request.QueryString;
@@ -67,10 +79,21 @@ namespace StatusTracker.Controllers
             var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.url == url);
             bool existingService = service != null;
 
+            var iden = await Authorization.IdentityFromHeader(context);
+
+            if (iden == null || (existingService && service.identityCreated == iden.Id))
+            {
+                return new ResponseState()
+                {
+                    message = "Login Not Granted",
+                    status = 401
+                };
+            }
+
             if (!existingService)
             {
-                service = new Data.Classes.TargetService(url, delay);
-                DataEngineMangment.targetServiceEngine.Add(service);
+                service = new Data.Classes.TargetService(url, delay, iden);
+                await DataEngineMangment.targetServiceEngine.Add(service);
             }
             else
             {

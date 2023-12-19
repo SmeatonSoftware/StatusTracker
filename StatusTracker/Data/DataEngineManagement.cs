@@ -11,6 +11,7 @@ namespace StatusTracker.Data
         public static DataEngine<TargetService> targetServiceEngine;
         public static DataEngine<PingResult> pingResultEngine;
         public static DataEngine<Identity> identityEngine;
+        public static DataEngine<FavouriteService> favouriteServiceEngine;
 
         #region Fields
 
@@ -30,6 +31,7 @@ namespace StatusTracker.Data
             targetServiceEngine = new DataEngine<TargetService>(db.GetCollection<TargetService>());
             pingResultEngine = new DataEngine<PingResult>(db.GetCollection<PingResult>());
             identityEngine = new DataEngine<Identity>(db.GetCollection<Identity>());
+            favouriteServiceEngine = new DataEngine<FavouriteService>(db.GetCollection<FavouriteService>());
         }
 
         #endregion Methods

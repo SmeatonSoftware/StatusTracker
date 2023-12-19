@@ -65,6 +65,7 @@
     <Compile Include="Controllers\Logger.cs" />
     <Compile Include="Controllers\PingStats.cs" />
     <Compile Include="Controllers\Services.cs" />
+    <Compile Include="Data\Classes\FavouriteService.cs" />
     <Compile Include="Data\Classes\Identity.cs" />
     <Compile Include="Data\Classes\PingResult.cs" />
     <Compile Include="Data\Classes\RequestLog.cs" />
