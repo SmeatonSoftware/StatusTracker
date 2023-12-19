@@ -21,7 +21,15 @@ import {theme} from "./src/theme";
 import Trackers from "./src/pages/trackers";
 import Info from "./src/pages/info";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {Entypo, Feather, FontAwesome5, Fontisto, Foundation, MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    AntDesign,
+    Entypo,
+    Feather,
+    FontAwesome5,
+    Fontisto,
+    Foundation,
+    MaterialCommunityIcons
+} from "@expo/vector-icons";
 import Home from "./src/pages/home";
 import Authentication from "./src/services/authentication";
 import User from "./src/pages/user";
@@ -90,13 +98,13 @@ export default class App extends Component{
 
                 <View style={styles.footer}>
                     <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
-                        <MaterialCommunityIcons name="home" size={55} color={theme.textPrimary}/>
+                        <Entypo name="home" size={55} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "trackers"})} style={styles.navBox}>
                         <Entypo name="bar-graph" size={50} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
-                        <Foundation name="info" size={55} color={theme.textPrimary}/>
+                        <Foundation name="info" size={60} color={theme.textPrimary}/>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "user"})} style={styles.navBox}>
                         <FontAwesome5 name="user-cog" size={47} color={theme.textPrimary}/>
