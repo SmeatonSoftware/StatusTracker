@@ -14,7 +14,7 @@ export default class Authentication extends Component{
         defaultExpires: 1000 * 3600 * 24 * 30,
         enableCache: true,
 
-        storageBackend: window == null ? AsyncStorage : window.localStorage,
+        storageBackend: window.location == null ? AsyncStorage : window.localStorage,
         sync: {}
     });
 
