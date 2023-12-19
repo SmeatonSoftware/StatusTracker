@@ -8,14 +8,16 @@ namespace StatusTracker.Data.Classes
 {
     public class Identity : DataClass
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
         public string CookieKey { get; set; }
 
         public Identity() { }
 
-        public Identity(string username, string cookieKey)
+        public Identity(string email, string password, string cookieKey)
         {
-            Username = username;
+            Email = email;
+            Password = password;
             CookieKey = cookieKey;
         }
     }

@@ -72,7 +72,7 @@ namespace StatusTracker.Controllers
         {
             var iam = context.GetBody<Identity>();
 
-            if (iam == null || iam.Username.Length == 0) return new ResponseState()
+            if (iam == null || iam.Email.Length == 0) return new ResponseState()
             {
                 status = 401,
                 message = "No Auth"
@@ -83,14 +83,14 @@ namespace StatusTracker.Controllers
             if (youare == null || iam.CookieKey == null || iam.CookieKey.Length == 0)
             {
                 iam.CookieKey = RandomString();
-                youare = new Identity(iam.Username, encoder.Encode(iam.CookieKey));
+                youare = new Identity(iam.Email, iam.Password, encoder.Encode(iam.CookieKey));
                 await DataEngineMangment.identityEngine.Add(youare);
                 
                 return new ResponseState()
                 {
                     status = 201,
                     message = "Created New Auth",
-                    data = new Identity(iam.Username, iam.CookieKey) { Id = youare.Id }
+                    data = new Identity(iam.Email, iam.Password, iam.CookieKey) { Id = youare.Id }
                 };
             }
             else if (!encoder.Compare(iam.CookieKey, youare.CookieKey))

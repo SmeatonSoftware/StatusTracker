@@ -1,26 +1,52 @@
 import APIRequest from "./request";
 import {Component} from "react";
-import {View, Text, TextInput} from "react-native";
+import {View, Text, TextInput, Button} from "react-native";
+import Storage from 'react-native-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {theme} from "../theme";
+
 
 export default class Authentication extends Component{
     static Identity = {};
+    static StorageManager = new Storage({
+        size: 1000,
+        defaultExpires: 1000 * 3600 * 24 * 30,
+        enableCache: true,
+
+        storageBackend: window == null ? AsyncStorage : window.localStorage,
+
+
+        // if data was not found in storage or expired data was found,
+        // the corresponding sync method will be invoked returning
+        // the latest data.
+        sync: {
+            // we'll talk about the details later.
+        }
+    });
 
     constructor(props) {
         super(props);
 
         this.state = {
-            identity: {}, good: false
+            identity: {Username: ""}, hasAuth: false
         };
     }
 
     componentDidMount() {
-        this.LoadIdentity();
+        let that = this;
+        Authentication.StorageManager.load({key: "identity"})
+            .then(d=>{
+                that.LoadIdentity(d);
+            })
+            .catch(d=> {
+            })
     }
 
     componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
         console.log(this.state.identity);
         if (this.state.identity != prevState.identity){
             Authentication.Identity = this.state.identity;
+            Authentication.StorageManager.save({key: "identity", data: this.state.identity});
             console.log(this.state.identity);
         }
     }
@@ -33,32 +59,24 @@ export default class Authentication extends Component{
             :
             <View>
                 <Text>No Auth</Text>
+                <TextInput onChangeText={x => this.setState({identity:{Username: x}})} style={{backgroundColor: theme.bgSecondary}}/>
+                <Button color={theme.buttonPrimary} title={"Login"} onPress={x=>this.LoadIdentity()}/>
             </View>;
     }
 
-    LoadOrDefaultIdentity(){
-        return {
-            Id: -1,
-            CookieKey: "",
-            Username: "Test"
-        };
-    }
+    async LoadIdentity(_identity) {
+        let that = this;
 
-    async LoadIdentity(){
-        let that = this
+        console.log(_identity);
 
-        let iden = this.LoadOrDefaultIdentity();
-
-        let r = new APIRequest("auth/confirm", iden, "POST")
-
-        let _d = {};
+        let r = new APIRequest("auth/confirm", _identity, "POST");
 
         await r.executeWithCallback(
-            (d)=>{
-                that.setState({identity: iden, good: true});
+            (d) => {
+                that.setState({identity: _identity, good: true});
             },
-            (d)=>{
-                switch (d.status){
+            (d) => {
+                switch (d.status) {
                     case 201:
                         that.setState({identity: d.data, good: true});
 
@@ -75,5 +93,4 @@ export default class Authentication extends Component{
             {}
         );
     }
-
 }
