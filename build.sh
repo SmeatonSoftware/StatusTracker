@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "Building API Server For\nC#\nMono"
+echo "Building API Server For C# Mono"
 
 rm -r -f ./app
 
@@ -15,19 +15,20 @@ echo "Building App For Web + Android"
 
 cd ./mobile
 wsl bash ./build.sh
-cd ..
+
+sleep 10s
 
 echo "Copying artifacts to /app"
 
-cp -r ./mobile/web-build/ ./app/site/
-cp -r ./mobile/app-build/ ./app/site/builds/
+cp -r ./web-build/ ../app/site/
+cp -r ./app-build/ ../app/site/builds/
 
 #echo "Created app.zip"
 #7z a app.zip ./app
 
 echo "Cleaning Up";
-rm -r -f ./mobile/web-build
-rm -r -f ./mobile/app-build
+rm -r -f ./web-build
+rm -r -f ./app-build
 
 echo "Finished Build!"
 

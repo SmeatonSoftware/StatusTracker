@@ -124,6 +124,8 @@ export default class Authentication extends Component {
     async LoadIdentity(_identity) {
         let that = this;
 
+        //console.warn(_identity);
+
         let r = new APIRequest("auth/check", "", "GET");
 
         await r.executeWithCallback(

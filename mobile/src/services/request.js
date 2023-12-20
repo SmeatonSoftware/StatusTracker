@@ -31,9 +31,10 @@ export default class APIRequest {
             "Content-Type": "application/json"
         } : {...headers};
 
-        head = {...head,
+        head = {
                 id: Authentication.Identity != null ? Authentication.Identity.Id : "" ,
-                key: Authentication.Identity != null ? Authentication.Identity.CookieKey : ""
+                key: Authentication.Identity != null ? Authentication.Identity.CookieKey : "",
+                ...head
         };
 
         let optn = {
