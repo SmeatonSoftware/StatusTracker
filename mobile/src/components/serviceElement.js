@@ -125,6 +125,7 @@ export default class ServiceElement extends Component {
 
     render() {
         let s = this.props.data;
+        console.warn(s);
         return <View style={styles.body}>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
@@ -156,7 +157,7 @@ export default class ServiceElement extends Component {
                 minWidth: "100%"
             }}>
                 <View style={{minWidth: "49%"}}>
-                    <Button title={this.props.data.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                    <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
                             onPress={x => this.favourite()}/>
                 </View>
                 <View style={{minWidth: "1%"}}/>

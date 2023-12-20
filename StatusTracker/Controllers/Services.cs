@@ -14,11 +14,11 @@ namespace StatusTracker.Controllers
         {
             var iden = await Authorization.IdentityFromHeader(context);
 
-            var favs = (await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync()).ToArray();
+            var favs = (await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync());
 
             var results = await DataEngineMangment.targetServiceEngine.table.FindAllAsync();
 
-            results = results.OrderByDescending(x => favs.Count(y => y.targetService == x.Id));
+            results = results.OrderByDescending(x => favs.Count(y => y.targetService == x.Id)).ToArray();
 
             if (iden != null)
             {
@@ -50,7 +50,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var favs = (await DataEngineMangment.favouriteServiceEngine.Search(x => x.idenitityId == iden.Id)).Select(x=>x.targetService);
+            var favs = (await DataEngineMangment.favouriteServiceEngine.Search(x => x.idenitityId == iden.Id)).Select(x=>x.targetService).ToArray();
 
             var servs = await DataEngineMangment.targetServiceEngine.Search(x => x.identityCreated == iden.Id || favs.Contains(x.Id));
 
