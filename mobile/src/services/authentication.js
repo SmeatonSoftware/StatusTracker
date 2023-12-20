@@ -31,13 +31,18 @@ export default class Authentication extends Component {
 
         if (Authentication.Identity != null) {
             that.setState({identity: Authentication.Identity, hasAuth: true});
+            return;
         }
 
         Authentication.StorageManager.load({key: "identity"})
             .then(d => {
+                console.log(d);
+                Authentication.Identity = d;
+                that.setState({identity: d, hasAuth: true});
                 that.LoadIdentity(d);
             })
             .catch(d => {
+                that.setState({identity: null, hasAuth: false});
             })
     }
 
@@ -49,7 +54,7 @@ export default class Authentication extends Component {
     }
 
     render() {
-        return this.state.good ?
+        return this.state.hasAuth ?
             <View>
                 {this.props.children}
             </View>
@@ -91,10 +96,10 @@ export default class Authentication extends Component {
 
         await r.executeWithCallback(
             (d) => {
-                that.setState({identity: d.data, good: true});
+                that.setState({identity: d.data, hasAuth: true});
             },
             (d) => {
-                that.setState({errorText: d.message});
+                that.setState({errorText: d.message, hasAuth: false});
             },
             true,
             {}
@@ -110,10 +115,10 @@ export default class Authentication extends Component {
 
         await r.executeWithCallback(
             (d) => {
-                that.setState({identity: d.data, good: true});
+                that.setState({identity: d.data, hasAuth: true});
             },
             (d) => {
-                that.setState({errorText: d.message});
+                that.setState({errorText: d.message, hasAuth: false});
             },
             true,
             {}
@@ -131,9 +136,10 @@ export default class Authentication extends Component {
         await r.executeWithCallback(
             (d) => {
                 Authentication.Identity = _identity;
-                that.setState({identity: _identity, good: true});
+                that.setState({identity: _identity, hasAuth: true});
             },
             (d) => {
+                that.setState({identity: null, hasAuth: false});
             },
             true,
             {

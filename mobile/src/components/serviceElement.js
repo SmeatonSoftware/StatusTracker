@@ -3,12 +3,14 @@ import {Button, StyleSheet, Text, View} from "react-native";
 import APIRequest from "../services/request";
 import Padd from "./padd";
 import {theme} from "../theme";
+import Authentication from "../services/authentication";
 
 export default class ServiceElement extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            data: props.data,
             pingLog: [],
             pingStats: {
                 minMs: 0,
@@ -39,7 +41,7 @@ export default class ServiceElement extends Component {
 
     async refreshStats() {
         let that = this;
-        let r = new APIRequest("pings/stats?service=" + this.props.data.Id + "&count=" + this.state.lim, "", "GET")
+        let r = new APIRequest("pings/stats?service=" + this.state.data.Id + "&count=" + this.state.lim, "", "GET")
 
         await r.executeWithCallback(
             (d) => {
@@ -55,11 +57,12 @@ export default class ServiceElement extends Component {
 
     async favourite() {
         let that = this;
-        let r = new APIRequest("services/togfav?service=" + this.props.data.Id, "", "PUT")
+        let r = new APIRequest("services/togfav?service=" + this.state.data.Id, "", "PUT")
 
         await r.executeWithCallback(
             (d) => {
-                this.props.refresh();
+                //this.props.refresh();
+                that.setState({data: {...that.state.data, isFav: d.favourite}})
             },
             (d) => {
                 console.log(d)
@@ -71,7 +74,7 @@ export default class ServiceElement extends Component {
 
     async delete() {
         let that = this;
-        let r = new APIRequest("services/delete?service=" + this.props.data.Id, "", "DELETE")
+        let r = new APIRequest("services/delete?service=" + this.state.data.Id, "", "DELETE")
 
         await r.executeWithCallback(
             (d) => {
@@ -124,7 +127,7 @@ export default class ServiceElement extends Component {
     }
 
     render() {
-        let s = this.props.data;
+        let s = this.state.data;
         return <View style={styles.body}>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
@@ -156,13 +159,14 @@ export default class ServiceElement extends Component {
                 minWidth: "100%"
             }}>
                 <View style={{minWidth: "49%"}}>
-                    <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                            onPress={x => this.favourite()}/>
+                    {Authentication.Identity == null ? null : <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                                                                      onPress={x => this.favourite()}/>}
                 </View>
                 <View style={{minWidth: "1%"}}/>
                 <View style={{minWidth: "49%"}}>
-                    <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                            onPress={x => this.delete()}/>
+                    {Authentication.Identity != null && Authentication.Identity.Id == s.identityCreated ? <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                                                                                                                  onPress={x => this.delete()}/> : null}
+
                 </View>
             </Padd>
         </View>

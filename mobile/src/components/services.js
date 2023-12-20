@@ -28,7 +28,7 @@ export default class Services extends Component {
 
     componentDidMount() {
         this.refresh();
-        setInterval(x => this.refresh(), 60000);
+        //setInterval(x => this.refresh(), 60000);
     }
 
     render() {

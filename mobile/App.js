@@ -90,9 +90,7 @@ export default class App extends Component{
                         <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
                     <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
-                        <Authentication>
-                            {this.state.pageObj}
-                        </Authentication>
+                        {this.state.pageObj}
                     </ScrollView>
                 </View>
 
