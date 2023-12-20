@@ -11,7 +11,7 @@ export default class Trackers extends Component {
     render() {
         return <View style={styles.body}>
             <NewService refresh={this.props.refresh}/>
-            <Services refresh={this.props.refresh}/>
+            <Services refresh={this.props.refresh} onlyFavs={true}/>
         </View>;
     }
 }

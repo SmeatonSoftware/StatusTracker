@@ -37,6 +37,8 @@ namespace StatusTracker
             RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 0, 5)));
 
             RequestRegistrar.Register(new RequestFunc("/api/services/all", "GET", Controllers.Services.GetAll));
+            RequestRegistrar.Register(new RequestFunc("/api/services/favs", "GET", Controllers.Services.GetFavourites));
+            RequestRegistrar.Register(new RequestFunc("/api/services/togfav", "PUT", Controllers.Services.ToggleFavourite));
             RequestRegistrar.Register(new RequestFunc("/api/services/submit", "POST", Controllers.Services.AddOrUpdate));
             RequestRegistrar.Register(new RequestFunc("/api/services/delete", "DELETE", Controllers.Services.Delete));
 

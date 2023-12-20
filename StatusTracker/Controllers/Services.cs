@@ -12,12 +12,92 @@ namespace StatusTracker.Controllers
     {
         public static async Task<ResponseState> GetAll(RequestContext context)
         {
+            var favs = await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync();
+
             var results = await DataEngineMangment.targetServiceEngine.table.FindAllAsync();
+
+            results = results.OrderByDescending(x => favs.Count(y => y.targetService == x.Id));
 
             return new ResponseState()
             {
                 message = "All Services",
                 data = results
+            };
+        }
+        public static async Task<ResponseState> GetFavourites(RequestContext context)
+        {
+            var iden = await Authorization.IdentityFromHeader(context);
+
+            if (iden == null)
+            {
+                return new ResponseState()
+                {
+                    message = "No Login",
+                    status = 401
+                };
+            }
+
+            var favs = (await DataEngineMangment.favouriteServiceEngine.Search(x => x.idenitityId == iden.Id)).Select(x=>x.targetService);
+
+            var servs = await DataEngineMangment.targetServiceEngine.Search(x => x.identityCreated == iden.Id || favs.Contains(x.Id));
+
+            return new ResponseState()
+            {
+                message = "Your Favs",
+                data = servs
+            };
+        }
+
+        public static async Task<ResponseState> ToggleFavourite(RequestContext context)
+        {
+            var query = context.context.Request.QueryString;
+
+            if (!query.AllKeys.Contains("service") || !int.TryParse(query.Get("service"), out var serviceId))
+            {
+                return new ResponseState()
+                {
+                    message = "Service Id Missing Or Malformed",
+                    status = 400
+                };
+            }
+
+            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+
+            if (service == null)
+            {
+                return new ResponseState()
+                {
+                    message = "Service Not Found",
+                    status = 404
+                };
+            }
+
+            var iden = await Authorization.IdentityFromHeader(context);
+
+            if (iden == null)
+            {
+                return new ResponseState()
+                {
+                    message = "No Login",
+                    status = 401
+                };
+            }
+
+            var fav = await DataEngineMangment.favouriteServiceEngine.TryFind(x => x.targetService == serviceId);
+
+            if (fav!= null)
+            {
+                await DataEngineMangment.favouriteServiceEngine.Remove(fav.Id);
+            }
+            else
+            {
+                await DataEngineMangment.favouriteServiceEngine.Add(new Data.Classes.FavouriteService(service, iden));
+            }
+
+            return new ResponseState()
+            {
+                message = "Toggled Favourite",
+                data = new { favourite = fav == null }
             };
         }
 

@@ -12,7 +12,7 @@ export default class Services extends Component {
 
     async refresh() {
         let that = this;
-        let r = new APIRequest("services/all", "", "GET")
+        let r = new APIRequest(this.props.onlyFavs ? "services/favs" : "services/all", "", "GET")
 
         await r.executeWithCallback(
             (d) => {
