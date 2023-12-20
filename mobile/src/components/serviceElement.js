@@ -125,7 +125,6 @@ export default class ServiceElement extends Component {
 
     render() {
         let s = this.props.data;
-        console.warn(s);
         return <View style={styles.body}>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
