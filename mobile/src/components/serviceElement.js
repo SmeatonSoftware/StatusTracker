@@ -29,23 +29,7 @@ export default class ServiceElement extends Component {
 
         await r.executeWithCallback(
             (d) => {
-                that.setState({pingLog: d.data});
-            },
-            (d) => {
-                console.log(d)
-            },
-            true,
-            {}
-        );
-    }
-
-    async refreshStats() {
-        let that = this;
-        let r = new APIRequest("pings/stats?service=" + this.state.data.Id + "&count=" + this.state.lim, "", "GET")
-
-        await r.executeWithCallback(
-            (d) => {
-                that.setState({pingStats: d.data});
+                that.setState({pingLog: d.data.log, pingStats: d.data.stats});
             },
             (d) => {
                 console.log(d)
@@ -89,7 +73,6 @@ export default class ServiceElement extends Component {
     }
 
     async componentDidMount() {
-        await this.refreshStats();
         await this.refreshLog();
     }
 

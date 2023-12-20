@@ -42,7 +42,7 @@ export default class Authentication extends Component {
                 that.LoadIdentity(d);
             })
             .catch(d => {
-                that.setState({identity: null, hasAuth: false});
+                that.setState({hasAuth: false});
             })
     }
 
@@ -139,7 +139,7 @@ export default class Authentication extends Component {
                 that.setState({identity: _identity, hasAuth: true});
             },
             (d) => {
-                that.setState({identity: null, hasAuth: false});
+                that.setState({hasAuth: false});
             },
             true,
             {
