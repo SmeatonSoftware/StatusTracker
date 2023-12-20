@@ -11,8 +11,8 @@ namespace StatusTracker.Data.Classes
         public string url { get; set; }
         public TimeSpan runFrequency { get; set; }
         public DateTime lastRun { get; set; }
-
-        public int identityCreated {  get; set; }
+        public int identityCreated { get; set; }
+        public bool isFav { get; set; } = false;
 
         public TargetService() { }
 

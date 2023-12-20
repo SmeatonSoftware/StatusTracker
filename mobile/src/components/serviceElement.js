@@ -53,6 +53,22 @@ export default class ServiceElement extends Component {
         );
     }
 
+    async favourite() {
+        let that = this;
+        let r = new APIRequest("services/togfav?service=" + this.props.data.Id, "", "PUT")
+
+        await r.executeWithCallback(
+            (d) => {
+                this.props.refresh();
+            },
+            (d) => {
+                console.log(d)
+            },
+            true,
+            {}
+        );
+    }
+
     async delete() {
         let that = this;
         let r = new APIRequest("services/delete?service=" + this.props.data.Id, "", "DELETE")
@@ -132,9 +148,22 @@ export default class ServiceElement extends Component {
                     <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
                 </Padd>
             </View>
-            <Padd>
-                <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                        onPress={x => this.delete()}/>
+            <Padd style={{
+                paddingTop: 10,
+                paddingBottom: 10,
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                minWidth: "100%"
+            }}>
+                <View style={{minWidth: "49%"}}>
+                    <Button title={this.props.data.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                            onPress={x => this.favourite()}/>
+                </View>
+                <View style={{minWidth: "1%"}}/>
+                <View style={{minWidth: "49%"}}>
+                    <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                            onPress={x => this.delete()}/>
+                </View>
             </Padd>
         </View>
     }

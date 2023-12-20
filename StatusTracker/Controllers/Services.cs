@@ -12,11 +12,24 @@ namespace StatusTracker.Controllers
     {
         public static async Task<ResponseState> GetAll(RequestContext context)
         {
-            var favs = await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync();
+            var iden = await Authorization.IdentityFromHeader(context);
+
+            var favs = (await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync()).ToArray();
 
             var results = await DataEngineMangment.targetServiceEngine.table.FindAllAsync();
 
             results = results.OrderByDescending(x => favs.Count(y => y.targetService == x.Id));
+
+            if (iden != null)
+            {
+                foreach (var item in results)
+                {
+                    if (favs.Any(x => x.targetService == item.Id && x.idenitityId == iden.Id))
+                    {
+                        item.isFav = true;
+                    }
+                }
+            }
 
             return new ResponseState()
             {
@@ -40,6 +53,11 @@ namespace StatusTracker.Controllers
             var favs = (await DataEngineMangment.favouriteServiceEngine.Search(x => x.idenitityId == iden.Id)).Select(x=>x.targetService);
 
             var servs = await DataEngineMangment.targetServiceEngine.Search(x => x.identityCreated == iden.Id || favs.Contains(x.Id));
+
+            foreach (var item in servs)
+            {
+                item.isFav = favs.Contains(item.Id);
+            }
 
             return new ResponseState()
             {
