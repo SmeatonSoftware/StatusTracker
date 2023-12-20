@@ -130,6 +130,7 @@ export default class Authentication extends Component {
 
         await r.executeWithCallback(
             (d) => {
+                Authentication.Identity = _identity;
                 that.setState({identity: _identity, good: true});
             },
             (d) => {

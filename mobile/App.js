@@ -66,7 +66,7 @@ export default class App extends Component{
                 break;
 
             case "trackers":
-                p = <Trackers refresh={()=>this.refresh(this)}/>;
+                p = <Authentication><Trackers refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
 
             case "info":
@@ -74,7 +74,7 @@ export default class App extends Component{
                 break;
 
             case "user":
-                p = <User refresh={()=>this.refresh(this)}/>;
+                p = <Authentication><User refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
         }
 
