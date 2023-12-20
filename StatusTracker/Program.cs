@@ -34,16 +34,16 @@ namespace StatusTracker
 
         private static void RegisterEndpoints()
         {
-            RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 0, 5)));
+            RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 1, 0)));
 
-            RequestRegistrar.Register(new RequestFunc("/api/services/all", "GET", Controllers.Services.GetAll));
-            RequestRegistrar.Register(new RequestFunc("/api/services/favs", "GET", Controllers.Services.GetFavourites));
+            RequestRegistrar.Register(new RequestFunc("/api/services/all", "GET", Controllers.Services.GetAll, new TimeSpan(0, 5, 0)));
+            RequestRegistrar.Register(new RequestFunc("/api/services/favs", "GET", Controllers.Services.GetFavourites, new TimeSpan(0, 5, 0)));
             RequestRegistrar.Register(new RequestFunc("/api/services/togfav", "PUT", Controllers.Services.ToggleFavourite));
             RequestRegistrar.Register(new RequestFunc("/api/services/submit", "POST", Controllers.Services.AddOrUpdate));
             RequestRegistrar.Register(new RequestFunc("/api/services/delete", "DELETE", Controllers.Services.Delete));
 
-            RequestRegistrar.Register(new RequestFunc("/api/pings/recent", "GET", Controllers.PingStats.Recent/*, new TimeSpan(0, 1, 0)*/));
-            RequestRegistrar.Register(new RequestFunc("/api/pings/stats", "GET", Controllers.PingStats.Stats/*, new TimeSpan(0, 1, 0)*/));
+            RequestRegistrar.Register(new RequestFunc("/api/pings/recent", "GET", Controllers.PingStats.Recent, new TimeSpan(0, 1, 0)));
+            RequestRegistrar.Register(new RequestFunc("/api/pings/stats", "GET", Controllers.PingStats.Stats, new TimeSpan(0, 1, 0)));
 
             RequestRegistrar.Register(new RequestFunc("/api/auth/check", "GET", Controllers.Authorization.CheckAuth));
             RequestRegistrar.Register(new RequestFunc("/api/auth/signin", "POST", Controllers.Authorization.Signin));
