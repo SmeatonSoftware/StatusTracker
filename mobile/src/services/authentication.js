@@ -134,8 +134,8 @@ export default class Authentication extends Component {
             },
             true,
             {
-                id: _identity.Id,
-                key: _identity.CookieKey
+                id: _identity != null ? _identity.Id : "",
+                key: _identity != null ? _identity.CookieKey : ""
             }
         );
     }
