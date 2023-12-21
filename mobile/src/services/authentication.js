@@ -43,11 +43,12 @@ export default class Authentication extends Component {
             })
     }
 
-    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-        if (this.state.identity != prevState.identity) {
-            Authentication.Identity = this.state.identity;
-            Authentication.StorageManager.save({key: "identity", data: this.state.identity});
+    shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
+        if (this.state.identity != nextState.identity) {
+            Authentication.Identity = nextState.identity;
+            Authentication.StorageManager.save({key: "identity", data: nextState.identity});
         }
+        return true;
     }
 
     render() {
