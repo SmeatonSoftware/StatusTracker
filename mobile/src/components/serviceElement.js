@@ -46,7 +46,7 @@ export default class ServiceElement extends Component {
         await r.executeWithCallback(
             (d) => {
                 //this.props.refresh();
-                that.setState({data: {...that.state.data, isFav: d.favourite}})
+                that.setState({data: {...that.state.data, isFav: d.data.favourite}})
             },
             (d) => {
                 console.log(d)

@@ -73,6 +73,15 @@ namespace StatusTracker.Controllers
         {
             var iam = context.GetBody<Identity>();
 
+            if (iam == null)
+            {
+                return new ResponseState()
+                {
+                    status = 400,
+                    message = "Malformed Request"
+                };
+            }
+
             var youare = await DataEngineMangment.identityEngine.TryFind(x => x.Email == iam.Email);
 
             if (youare == null)
