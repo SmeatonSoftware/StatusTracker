@@ -22,7 +22,7 @@ export default class Authentication extends Component {
         super(props);
 
         this.state = {
-            identity: {Email: "", Password: ""}, hasAuth: false, errorText: ""
+            identity: {Email: "", Password: ""}, hasAuth: null, errorText: ""
         };
     }
 
@@ -36,9 +36,6 @@ export default class Authentication extends Component {
 
         Authentication.StorageManager.load({key: "identity"})
             .then(d => {
-                console.log(d);
-                Authentication.Identity = d;
-                that.setState({identity: d, hasAuth: true});
                 that.LoadIdentity(d);
             })
             .catch(d => {
@@ -54,7 +51,12 @@ export default class Authentication extends Component {
     }
 
     render() {
-        return this.state.hasAuth ?
+        return this.state.hasAuth == null ?
+            <View>
+
+            </View>
+            :
+            this.state.hasAuth ?
             <View>
                 {this.props.children}
             </View>
@@ -104,8 +106,6 @@ export default class Authentication extends Component {
             true,
             {}
         );
-
-
     }
 
     async SignIn() {
@@ -123,7 +123,6 @@ export default class Authentication extends Component {
             true,
             {}
         );
-
     }
 
     async LoadIdentity(_identity) {
