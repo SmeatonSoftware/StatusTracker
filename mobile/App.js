@@ -18,7 +18,7 @@ import Services from "./src/components/services";
 import NewService from "./src/components/newService";
 import {theme} from "./src/theme";
 
-import Trackers from "./src/pages/trackers";
+import Favourites from "./src/pages/favourites";
 import {
     AntDesign,
     Entypo,
@@ -64,7 +64,7 @@ export default class App extends Component{
                 break;
 
             case "trackers":
-                p = <Authentication needAuth={true}><Trackers refresh={()=>this.refresh(this)}/></Authentication>;
+                p = <Authentication needAuth={true}><Favourites refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
 
             case "user":
