@@ -19,9 +19,9 @@ export default class Authentication extends Component {
     });
 
     constructor(props) {
-        props = {needAuth: false, ...props}
-
+        props = {needAuth: false, ...props};
         super(props);
+        this.props = props;
 
         this.state = {
             identity: {Email: "", Password: ""}, hasAuth: null, errorText: ""

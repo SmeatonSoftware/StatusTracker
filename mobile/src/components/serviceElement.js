@@ -106,27 +106,40 @@ export default class ServiceElement extends Component {
         }} key={idx}><Text></Text></View>
     }
 
+    dateStrFromTicks(ticks){
+        let ticksToMicrotime = ticks / 10000;
+        let epochMicrotimeDiff = Math.abs(new Date(0, 0, 1).setFullYear(1));
+        let date = new Date(ticksToMicrotime - epochMicrotimeDiff);
+
+        return date.toLocaleDateString() + " @ "+date.toLocaleTimeString();
+    }
+
     render() {
         let s = this.state.data;
+        let anyErrors = this.state.pingLog.some(x=>x == -1);
         return <View style={styles.body}>
-            <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>{s.url}</Text>
-            <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
+            <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>
+                {
+                    anyErrors ?
+                        <Feather name={"x-circle"} size={20} color={theme.danger}/>
+                        :
+                        <FontAwesome name={"check-circle"} size={20} color={theme.success}/>
+                }
+                <Text> {s.url}</Text>
+            </Text>
+            <View style={{flexDirection: "row", justifyContent: "space-evenly", alignSelf: "center", minWidth: "100%"}}>
                 <Padd style={styles.padd}>
-                    <Text style={styles.text}>Min</Text>
-                    <Text style={styles.text}>{this.state.pingStats.minMs} MS</Text>
+                    <Text style={styles.text}>Showing Since</Text>
+                    <Text style={styles.text}>{this.dateStrFromTicks(this.state.pingStats.oldest)}</Text>
                 </Padd>
                 <Padd style={styles.padd}>
-                    <Text style={styles.text}>Avg</Text>
-                    <Text style={styles.text}>{this.state.pingStats.avgMs} MS</Text>
+                    <Text style={styles.text}>Time Between Pings</Text>
+                    <Text style={styles.text}>{s.runFrequency}</Text>
                 </Padd>
-                <Padd style={styles.padd}>
-                    <Text style={styles.text}>Max</Text>
-                    <Text style={styles.text}>{this.state.pingStats.maxMs} MS</Text>
-                </Padd>
-                <Padd style={styles.padd}>
-                    <Text style={styles.text}>Errors</Text>
-                    <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
-                </Padd>
+                {/*<Padd style={styles.padd}>*/}
+                {/*    <Text style={styles.text}>Failures</Text>*/}
+                {/*    <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>*/}
+                {/*</Padd>*/}
             </View>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}

@@ -83,7 +83,7 @@ export default class App extends Component{
                     <View style={styles.topBar}>
                         <Text style={{fontSize: 30, fontWeight: "bold", color: theme.textSecondary}}>Status Tracker</Text>
                     </View>
-                    <ScrollView style={{minWidth: "100%"}} showsVerticalScrollIndicator={false}>
+                    <ScrollView style={{minWidth: "100%", maxWidth: "100%"}} showsVerticalScrollIndicator={false}>
                         {this.state.pageObj}
                     </ScrollView>
                 </View>

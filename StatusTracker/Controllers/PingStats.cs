@@ -43,19 +43,16 @@ namespace StatusTracker.Controllers
 
             var stats = new
             {
-                minMs = 0.0f,
-                maxMs = 0.0f,
-                avgMs = 0,
+                oldest = (long)0,
                 failures = 0,
                 total = 0
             };
 
             if (results.Length > 0)
-                stats = new {
-                    minMs = results.Min(x => x.MS),
-                    maxMs = results.Max(x => x.MS),
-                    avgMs = (int)results.Average(x => x.MS),
-                    failures = results.Count(x => !x.Success),
+                stats = new
+                {
+                    oldest = results.Last().CreatedAt.Ticks,
+                    failures = results.Count(x=>!x.Success),
                     total = results.Length
                 };
 
