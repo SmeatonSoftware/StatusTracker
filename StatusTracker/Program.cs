@@ -2,16 +2,14 @@
 using StatusTracker.Controllers;
 using StatusTracker.Data;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatusTracker
 {
     internal class Program
     {
+        #region Methods
+
         private static void Init()
         {
             if (!Directory.Exists(Consts.workingDir))
@@ -30,23 +28,6 @@ namespace StatusTracker
             PIApp_Lib.Listener.Init();
 
             Services.ServicePinger.StartPingThreadLoop();
-        }
-
-        private static void RegisterEndpoints()
-        {
-            RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 1, 0)));
-
-            RequestRegistrar.Register(new RequestFunc("/api/services/all", "GET", Controllers.Services.GetAll, new TimeSpan(0, 0, 30)));
-            RequestRegistrar.Register(new RequestFunc("/api/services/favs", "GET", Controllers.Services.GetFavourites));
-            RequestRegistrar.Register(new RequestFunc("/api/services/togfav", "PUT", Controllers.Services.ToggleFavourite));
-            RequestRegistrar.Register(new RequestFunc("/api/services/submit", "POST", Controllers.Services.AddOrUpdate));
-            RequestRegistrar.Register(new RequestFunc("/api/services/delete", "DELETE", Controllers.Services.Delete));
-
-            RequestRegistrar.Register(new RequestFunc("/api/pings/recent", "GET", Controllers.PingStats.Recent, new TimeSpan(0, 1, 0)));
-
-            RequestRegistrar.Register(new RequestFunc("/api/auth/check", "GET", Controllers.Authorization.CheckAuth));
-            RequestRegistrar.Register(new RequestFunc("/api/auth/signin", "POST", Controllers.Authorization.Signin));
-            RequestRegistrar.Register(new RequestFunc("/api/auth/signup", "POST", Controllers.Authorization.Signup));
         }
 
         private static void Main(string[] args)
@@ -68,5 +49,24 @@ namespace StatusTracker
                 }
             }
         }
+
+        private static void RegisterEndpoints()
+        {
+            RequestRegistrar.Register(new RequestFunc("/api/logs", "GET", Controllers.Logger.GetLog, new TimeSpan(0, 1, 0)));
+
+            RequestRegistrar.Register(new RequestFunc("/api/services/all", "GET", Controllers.Services.GetAll, new TimeSpan(0, 0, 30)));
+            RequestRegistrar.Register(new RequestFunc("/api/services/favs", "GET", Controllers.Services.GetFavourites));
+            RequestRegistrar.Register(new RequestFunc("/api/services/togfav", "PUT", Controllers.Services.ToggleFavourite));
+            RequestRegistrar.Register(new RequestFunc("/api/services/submit", "POST", Controllers.Services.AddOrUpdate));
+            RequestRegistrar.Register(new RequestFunc("/api/services/delete", "DELETE", Controllers.Services.Delete));
+
+            RequestRegistrar.Register(new RequestFunc("/api/pings/recent", "GET", Controllers.PingStats.Recent, new TimeSpan(0, 1, 0)));
+
+            RequestRegistrar.Register(new RequestFunc("/api/auth/check", "GET", Controllers.Authorization.CheckAuth));
+            RequestRegistrar.Register(new RequestFunc("/api/auth/signin", "POST", Controllers.Authorization.Signin));
+            RequestRegistrar.Register(new RequestFunc("/api/auth/signup", "POST", Controllers.Authorization.Signup));
+        }
+
+        #endregion Methods
     }
 }

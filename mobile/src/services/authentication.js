@@ -60,38 +60,43 @@ export default class Authentication extends Component {
             </View>
             :
             this.state.hasAuth || !this.props.needAuth ?
-            <View>
-                {this.props.children}
-            </View>
-            :
-            <View style={styles.body}>
-                <Padd style={{alignItems: "center", minWidth: "100%"}}>
-                    <Text style={styles.text}>Email</Text>
-                    <TextInput style={styles.input} value={this.state.identity.Email}
-                               onChangeText={x => this.setState({identity: {...this.state.identity, Email: x}})}/>
-                </Padd>
-                <Padd style={{alignItems: "center", minWidth: "100%"}}>
-                    <Text style={styles.text}>Password</Text>
-                    <TextInput secureTextEntry={true} style={styles.input} value={this.state.identity.Password}
-                               onChangeText={x => this.setState({identity: {...this.state.identity, Password: x}})}/>
-                </Padd>
-                <Padd style={{
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    minWidth: "100%"
-                }}>
-                    <View style={{minWidth: "49%"}}>
-                        <Button color={theme.buttonPrimary} title={"Login"} onPress={x => this.SignIn()}/>
-                    </View>
-                    <View style={{minWidth: "1%"}}/>
-                    <View style={{minWidth: "49%"}}>
-                        <Button color={theme.buttonPrimary} title={"Signup"} onPress={x => this.SignUp()}/>
-                    </View>
-                </Padd>
-                <Text style={{...styles.text, color: theme.danger}}>{this.state.errorText}</Text>
-            </View>;
+                <View>
+                    {this.props.children}
+                </View>
+                :
+                <View style={styles.body}>
+                    <Padd style={{alignItems: "center", minWidth: "100%"}}>
+                        <Text style={styles.text}>Email</Text>
+                        <TextInput style={styles.input} value={this.state.identity.Email}
+                                   onChangeText={x => this.setState({identity: {...this.state.identity, Email: x}})}/>
+                    </Padd>
+                    <Padd style={{alignItems: "center", minWidth: "100%"}}>
+                        <Text style={styles.text}>Password</Text>
+                        <TextInput secureTextEntry={true} style={styles.input} value={this.state.identity.Password}
+                                   onChangeText={x => this.setState({
+                                       identity: {
+                                           ...this.state.identity,
+                                           Password: x
+                                       }
+                                   })}/>
+                    </Padd>
+                    <Padd style={{
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        flexDirection: "row",
+                        justifyContent: "space-evenly",
+                        minWidth: "100%"
+                    }}>
+                        <View style={{minWidth: "49%"}}>
+                            <Button color={theme.buttonPrimary} title={"Login"} onPress={x => this.SignIn()}/>
+                        </View>
+                        <View style={{minWidth: "1%"}}/>
+                        <View style={{minWidth: "49%"}}>
+                            <Button color={theme.buttonPrimary} title={"Signup"} onPress={x => this.SignUp()}/>
+                        </View>
+                    </Padd>
+                    <Text style={{...styles.text, color: theme.danger}}>{this.state.errorText}</Text>
+                </View>;
     }
 
     async SignUp() {

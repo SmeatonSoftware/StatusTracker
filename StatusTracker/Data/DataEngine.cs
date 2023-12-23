@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using LiteDB.Async;
+﻿using LiteDB.Async;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

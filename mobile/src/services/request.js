@@ -31,9 +31,9 @@ export default class APIRequest {
         } : {...headers};
 
         head = {
-                id: Authentication.Identity != null ? Authentication.Identity.Id : "" ,
-                key: Authentication.Identity != null ? Authentication.Identity.CookieKey : "",
-                ...head
+            id: Authentication.Identity != null ? Authentication.Identity.Id : "",
+            key: Authentication.Identity != null ? Authentication.Identity.CookieKey : "",
+            ...head
         };
 
         let optn = {

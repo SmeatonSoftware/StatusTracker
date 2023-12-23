@@ -3,39 +3,24 @@ using StatusTracker.Data.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace StatusTracker.Services
 {
     public static class ServicePinger
     {
-        public static void StartPingThreadLoop()
-        {
-            var t = new Thread(() =>
-            {
-                while (true)
-                {
-                    PingAll();
-                    Thread.Sleep(60000);
-                }
-            });
-
-            t.Start();
-        }
+        #region Methods
 
         public static async void PingAll()
         {
-            var services = await DataEngineMangment.targetServiceEngine.Search(x=>DateTime.UtcNow > x.lastRun + x.runFrequency);
+            var services = await DataEngineMangment.targetServiceEngine.Search(x => DateTime.UtcNow > x.lastRun + x.runFrequency);
 
             var pingResults = new List<PingResult>();
             var s = new Stopwatch();
 
-            using (var client = new HttpClient()) { 
+            using (var client = new HttpClient())
+            {
                 foreach (var service in services)
                 {
                     var req = new HttpRequestMessage(HttpMethod.Head, service.url);
@@ -68,5 +53,21 @@ namespace StatusTracker.Services
 
             await DataEngineMangment.pingResultEngine.table.InsertBulkAsync(pingResults);
         }
+
+        public static void StartPingThreadLoop()
+        {
+            var t = new Thread(() =>
+            {
+                while (true)
+                {
+                    PingAll();
+                    Thread.Sleep(60000);
+                }
+            });
+
+            t.Start();
+        }
+
+        #endregion Methods
     }
 }

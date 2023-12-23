@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace StatusTracker
 {
     public class Config
     {
+        #region Fields
+
         public static Config _config;
+
+        #endregion Fields
+
+        #region Methods
 
         public static bool TryLoadOrCreate()
         {
@@ -25,5 +26,7 @@ namespace StatusTracker
                 return false;
             }
         }
+
+        #endregion Methods
     }
 }

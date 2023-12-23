@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatusTracker.Data.Classes
 {
     public class TargetService : DataClass
     {
-        public string url { get; set; }
-        public TimeSpan runFrequency { get; set; }
-        public DateTime lastRun { get; set; }
-        public int identityCreated { get; set; }
-        public bool isFav { get; set; } = false;
+        #region Constructors
 
-        public TargetService() { }
+        public TargetService()
+        { }
 
         public TargetService(string url, TimeSpan runFrequency, Identity identity)
         {
@@ -23,5 +16,17 @@ namespace StatusTracker.Data.Classes
             this.lastRun = DateTime.MinValue;
             this.identityCreated = identity.Id;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public int identityCreated { get; set; }
+        public bool isFav { get; set; } = false;
+        public DateTime lastRun { get; set; }
+        public TimeSpan runFrequency { get; set; }
+        public string url { get; set; }
+
+        #endregion Properties
     }
 }

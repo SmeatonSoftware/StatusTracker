@@ -1,15 +1,14 @@
 ﻿using PIApp_Lib;
 using StatusTracker.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StatusTracker.Controllers
 {
     public static class PingStats
     {
+        #region Methods
+
         public static async Task<ResponseState> Recent(RequestContext context)
         {
             var query = context.context.Request.QueryString;
@@ -37,7 +36,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x=>x.Id).Limit(count).ToArrayAsync();
+            var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x => x.Id).Limit(count).ToArrayAsync();
 
             results = results.Reverse().ToArray();
 
@@ -52,17 +51,16 @@ namespace StatusTracker.Controllers
                 stats = new
                 {
                     oldest = results.Last().CreatedAt.Ticks,
-                    failures = results.Count(x=>!x.Success),
+                    failures = results.Count(x => !x.Success),
                     total = results.Length
                 };
-
 
             if (small)
             {
                 return new ResponseState()
                 {
                     message = "Ping Results",
-                    data = new { log = results.Select(x=>x.Success ? x.MS : -1).ToArray(), stats = stats }
+                    data = new { log = results.Select(x => x.Success ? x.MS : -1).ToArray(), stats = stats }
                 };
             }
             else
@@ -74,5 +72,7 @@ namespace StatusTracker.Controllers
                 };
             }
         }
+
+        #endregion Methods
     }
 }
