@@ -18,7 +18,8 @@ export default class ServiceElement extends Component {
                 avgMs: 0,
                 failures: 0,
                 total: 0
-            }
+            },
+            confirmDelete: false
         }
     }
 
@@ -53,6 +54,14 @@ export default class ServiceElement extends Component {
             true,
             {}
         );
+    }
+
+    deleteStart(){
+        this.setState({confirmDelete: true});
+    }
+
+    deleteCancel(){
+        this.setState({confirmDelete: false});
     }
 
     async delete() {
@@ -134,10 +143,19 @@ export default class ServiceElement extends Component {
                             <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
                                                                               onPress={x => this.favourite()}/>
                         </View>
-                        <View style={{minWidth: "1%"}}/>
+                        <View style={{minWidth: "2%"}}/>
                         <View style={{minWidth: "49%"}}>
-                            {Authentication.Identity.Id == s.identityCreated ? <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                                                                                                                          onPress={x => this.delete()}/> : null}
+                            {Authentication.Identity.Id == s.identityCreated ?
+                                this.state.confirmDelete ?
+                                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                                        <View style={{minWidth: "49%"}}><Button title={"Confirm"} color={theme.success} style={{minWidth: "50%"}} onPress={x => this.delete()}/></View>
+                                        <View style={{minWidth: "2%"}}/>
+                                        <View style={{minWidth: "49%"}}><Button title={"Cancel"} color={theme.warning} style={{minWidth: "50%"}} onPress={x => this.deleteCancel()}/></View>
+                                    </View> :
+                                    <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}} onPress={x => this.deleteStart()}/>
+                                : null
+                            }
+
                         </View>
                     </Padd>
                     : null

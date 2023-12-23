@@ -3,11 +3,11 @@ export const theme = {
     bgPrimary: "#222",
     bgSecondary: "#666",
     textPrimary: "white",
-    textSecondary: "limegreen",
+    textSecondary: "green",
     buttonPrimary: "cornflowerblue",
-    buttonSecondary: "limegreen",
+    buttonSecondary: "green",
     bgGraph: "#666",
     success: "green",
-    warning: "yellow",
+    warning: "orange",
     danger: "red"
 };
