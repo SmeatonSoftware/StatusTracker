@@ -19,6 +19,8 @@ export default class Authentication extends Component {
     });
 
     constructor(props) {
+        props = {needAuth: false, ...props}
+
         super(props);
 
         this.state = {
@@ -57,7 +59,7 @@ export default class Authentication extends Component {
 
             </View>
             :
-            this.state.hasAuth ?
+            this.state.hasAuth || !this.props.needAuth ?
             <View>
                 {this.props.children}
             </View>

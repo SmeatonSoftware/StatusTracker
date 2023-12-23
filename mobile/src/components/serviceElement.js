@@ -1,9 +1,10 @@
 import {Component} from "react";
-import {Button, StyleSheet, Text, View} from "react-native";
+import {Button, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import APIRequest from "../services/request";
 import Padd from "./padd";
 import {theme} from "../theme";
 import Authentication from "../services/authentication";
+import {Feather, FontAwesome, FontAwesome5} from "@expo/vector-icons";
 
 export default class ServiceElement extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ export default class ServiceElement extends Component {
 
     async refreshLog() {
         let that = this;
-        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=30", "", "GET")
+        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=50", "", "GET")
 
         await r.executeWithCallback(
             (d) => {
@@ -109,9 +110,6 @@ export default class ServiceElement extends Component {
         let s = this.state.data;
         return <View style={styles.body}>
             <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>{s.url}</Text>
-            <View style={styles.graph}>
-                {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
-            </View>
             <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
                 <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
@@ -130,6 +128,9 @@ export default class ServiceElement extends Component {
                     <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
                 </Padd>
             </View>
+            <View style={styles.graph}>
+                {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
+            </View>
             {
                 Authentication.Identity != null ?
                     <Padd style={{
@@ -139,20 +140,26 @@ export default class ServiceElement extends Component {
                         justifyContent: "space-evenly",
                         minWidth: "100%"
                     }}>
-                        <View style={{minWidth: "49%"}}>
-                            <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                                                                              onPress={x => this.favourite()}/>
+                        <View style={{minWidth: "49%", alignItems: "center"}}>
+                            <TouchableHighlight onPress={x=>this.favourite()} style={styles.navBox}>
+                                    <FontAwesome name={s.isFav ? "heart" : "heart-o"} size={30} color={theme.textPrimary}/>
+                            </TouchableHighlight>
                         </View>
                         <View style={{minWidth: "2%"}}/>
-                        <View style={{minWidth: "49%"}}>
+                        <View style={{minWidth: "49%", alignItems: "center"}}>
                             {Authentication.Identity.Id == s.identityCreated ?
                                 this.state.confirmDelete ?
-                                    <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
-                                        <View style={{minWidth: "49%"}}><Button title={"Confirm"} color={theme.success} style={{minWidth: "50%"}} onPress={x => this.delete()}/></View>
-                                        <View style={{minWidth: "2%"}}/>
-                                        <View style={{minWidth: "49%"}}><Button title={"Cancel"} color={theme.warning} style={{minWidth: "50%"}} onPress={x => this.deleteCancel()}/></View>
+                                    <View style={{flexDirection: "row", justifyContent: "space-evenly", minWidth: "100%"}}>
+                                        <TouchableHighlight onPress={x=>this.delete()} style={styles.navBox}>
+                                            <Feather name="check-circle" size={30} color={theme.textPrimary}/>
+                                        </TouchableHighlight>
+                                        <TouchableHighlight onPress={x=>this.deleteCancel()} style={styles.navBox}>
+                                            <Feather name="x-circle" size={30} color={theme.textPrimary}/>
+                                        </TouchableHighlight>
                                     </View> :
-                                    <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}} onPress={x => this.deleteStart()}/>
+                                    <TouchableHighlight onPress={x=>this.deleteStart()} style={styles.navBox}>
+                                        <FontAwesome name="trash" size={30} color={theme.textPrimary}/>
+                                    </TouchableHighlight>
                                 : null
                             }
 
@@ -178,11 +185,11 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        minHeight: 130,
+        //minHeight: 130,
         // minHeight: "100%",
         // height: "auto",
         //paddingBottom: "35%",
-        marginBottom: "5%"
+        marginBottom: "1%"
     },
     graph: {
         flex: 1,
@@ -195,6 +202,28 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: "black",
-        minHeight: "25%"
-    }
+        minHeight: 30
+    },
+    navText:{
+        color: theme.textPrimary,
+        fontWeight: "bold",
+        fontSize: 20
+    },
+    navBoxInner:{
+        alignItems: "center",
+        marginTop: "auto"
+    },
+    navBox:{
+        width: "21%",
+        minHeight: "100%",
+        alignItems: "center",
+        // shadowColor: '#171717',
+        // shadowOffset: {width: 0, height: 1},
+        // shadowOpacity: 0.5,
+        // shadowRadius: 4,
+        // borderColor: "white",
+        // borderWidth: 1,
+        // borderRadius: 5,
+        padding: 3
+    },
 });

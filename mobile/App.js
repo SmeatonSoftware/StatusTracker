@@ -60,15 +60,15 @@ export default class App extends Component{
         let p = <View></View>
         switch (this.state.page){
             default:
-                p = <Home refresh={()=>this.refresh(this)}/>
+                p = <Authentication><Home refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
 
             case "trackers":
-                p = <Authentication><Trackers refresh={()=>this.refresh(this)}/></Authentication>;
+                p = <Authentication needAuth={true}><Trackers refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
 
             case "user":
-                p = <Authentication><Settings refresh={()=>this.refresh(this)}/></Authentication>;
+                p = <Authentication needAuth={true}><Settings refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
         }
 
