@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: theme.textPrimary,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: 20
     },
     input: {
         backgroundColor: theme.bgSecondary,
