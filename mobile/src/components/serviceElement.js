@@ -99,10 +99,10 @@ export default class ServiceElement extends Component {
     render() {
         let s = this.state.data;
         return <View style={styles.body}>
+            <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>{s.url}</Text>
             <View style={styles.graph}>
                 {this.state.pingLog.map((x, idx) => this.getBar(x, idx))}
             </View>
-            <Text style={{fontWeight: "bold", ...styles.text}}>{s.url}</Text>
             <View style={{flexDirection: "row", justifyContent: "center", alignSelf: "center", maxWidth: "100%"}}>
                 <Padd style={styles.padd}>
                     <Text style={styles.text}>Min</Text>
@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        //minHeight: 150,
+        minHeight: 130,
         // minHeight: "100%",
         // height: "auto",
         //paddingBottom: "35%",
-        paddingBottom: "3%"
+        marginBottom: "5%"
     },
     graph: {
         flex: 1,

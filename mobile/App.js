@@ -19,8 +19,6 @@ import NewService from "./src/components/newService";
 import {theme} from "./src/theme";
 
 import Trackers from "./src/pages/trackers";
-import Info from "./src/pages/info";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import {
     AntDesign,
     Entypo,
@@ -32,7 +30,7 @@ import {
 } from "@expo/vector-icons";
 import Home from "./src/pages/home";
 import Authentication from "./src/services/authentication";
-import User from "./src/pages/user";
+import Settings from "./src/pages/settings";
 
 const { StatusBarManager } = NativeModules;
 
@@ -69,12 +67,8 @@ export default class App extends Component{
                 p = <Authentication><Trackers refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
 
-            case "info":
-                p = <Info refresh={()=>this.refresh(this)}/>;
-                break;
-
             case "user":
-                p = <Authentication><User refresh={()=>this.refresh(this)}/></Authentication>;
+                p = <Authentication><Settings refresh={()=>this.refresh(this)}/></Authentication>;
                 break;
         }
 
@@ -96,16 +90,22 @@ export default class App extends Component{
 
                 <View style={styles.footer}>
                     <TouchableHighlight onPress={x=>this.setState({page: ""})} style={styles.navBox}>
-                        <Entypo name="home" size={55} color={theme.textPrimary}/>
+                        <View style={styles.navBoxInner}>
+                            <Entypo name="home" size={55} color={theme.textPrimary}/>
+                            <Text style={styles.navText}>Services</Text>
+                        </View>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "trackers"})} style={styles.navBox}>
-                        <Entypo name="bar-graph" size={50} color={theme.textPrimary}/>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={x=>this.setState({page: "info"})} style={styles.navBox}>
-                        <Foundation name="info" size={60} color={theme.textPrimary}/>
+                        <View style={styles.navBoxInner}>
+                            <Entypo name="heart" size={50} color={theme.textPrimary}/>
+                            <Text style={styles.navText}>Likes</Text>
+                        </View>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={x=>this.setState({page: "user"})} style={styles.navBox}>
-                        <FontAwesome5 name="user-cog" size={47} color={theme.textPrimary}/>
+                        <View style={styles.navBoxInner}>
+                            <FontAwesome5 name="cog" size={50} color={theme.textPrimary}/>
+                            <Text style={styles.navText}>Settings</Text>
+                        </View>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -121,6 +121,15 @@ const maxAspect = 16/(16+9);
 const tarAspect = Math.min(windowAspect, maxAspect);
 
 const styles = StyleSheet.create({
+    navText:{
+        color: theme.textPrimary,
+        fontWeight: "bold",
+        fontSize: 20
+    },
+    navBoxInner:{
+        alignItems: "center",
+        marginTop: "auto"
+    },
     navBox:{
         width: "21%",
         minHeight: "100%",
@@ -137,7 +146,8 @@ const styles = StyleSheet.create({
     topBar:{
         //flex: 1,
         minWidth: "100%",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: "5%"
     },
     outer:{
         flex: 1,

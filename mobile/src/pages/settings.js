@@ -4,7 +4,7 @@ import Authentication from "../services/authentication";
 import Padd from "../components/padd";
 import {theme} from "../theme";
 
-export default class User extends Component {
+export default class Settings extends Component {
     render() {
         return <View style={styles.body}>
             <Padd style={{alignItems: "center", minWidth: "100%"}}>
