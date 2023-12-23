@@ -18,14 +18,13 @@ export default class ServiceElement extends Component {
                 avgMs: 0,
                 failures: 0,
                 total: 0
-            },
-            lim: 50
+            }
         }
     }
 
     async refreshLog() {
         let that = this;
-        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=" + this.state.lim, "", "GET")
+        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=30", "", "GET")
 
         await r.executeWithCallback(
             (d) => {
@@ -79,33 +78,21 @@ export default class ServiceElement extends Component {
     getBar(x, idx) {
         let log = this.state.pingLog;
 
-        let msDiff = this.state.pingStats.maxMs - this.state.pingStats.minMs + 10;
+        let height = 100;
+        let width = 1 / log.length * (100 - (1 * log.length));
 
-        let _x = x - this.state.pingStats.minMs + 5;
-
-        let height = Math.sqrt(_x) / Math.sqrt(msDiff) * 100;
-        let width = 1 / log.length * 100;
-
-        let colour = "green";
-
-        if (height > 90)
-            colour = "red"
-
-        else if (height > 70)
-            colour = "orange"
-
-        if (x == -1) {
-            colour = "silver";
-            height = 50;
-        }
+        let colour = x == -1 ? "red" : "green";
 
         return <View style={{
             backgroundColor: colour,
             minWidth: width + "%",
             minHeight: height + "%",
             marginTop: "auto",
-            borderWidth: 1,
-            borderColor: "black"
+            borderWidth: 2,
+            borderColor: "black",
+            borderRadius: 5,
+            marginLeft: "0.5%",
+            marginRight: "0.5%"
         }} key={idx}><Text></Text></View>
     }
 
@@ -134,24 +121,27 @@ export default class ServiceElement extends Component {
                     <Text style={styles.text}>{this.state.pingStats.failures}/{this.state.pingStats.total}</Text>
                 </Padd>
             </View>
-            <Padd style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                minWidth: "100%"
-            }}>
-                <View style={{minWidth: "49%"}}>
-                    {Authentication.Identity == null ? null : <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                                                                      onPress={x => this.favourite()}/>}
-                </View>
-                <View style={{minWidth: "1%"}}/>
-                <View style={{minWidth: "49%"}}>
-                    {Authentication.Identity != null && Authentication.Identity.Id == s.identityCreated ? <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
-                                                                                                                  onPress={x => this.delete()}/> : null}
-
-                </View>
-            </Padd>
+            {
+                Authentication.Identity != null ?
+                    <Padd style={{
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        flexDirection: "row",
+                        justifyContent: "space-evenly",
+                        minWidth: "100%"
+                    }}>
+                        <View style={{minWidth: "49%"}}>
+                            <Button title={s.isFav ? "Unfavourite" : "Favourite"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                                                                              onPress={x => this.favourite()}/>
+                        </View>
+                        <View style={{minWidth: "1%"}}/>
+                        <View style={{minWidth: "49%"}}>
+                            {Authentication.Identity.Id == s.identityCreated ? <Button title={"Delete"} color={theme.buttonPrimary} style={{minWidth: "100%"}}
+                                                                                                                          onPress={x => this.delete()}/> : null}
+                        </View>
+                    </Padd>
+                    : null
+            }
         </View>
     }
 }
@@ -170,11 +160,11 @@ const styles = StyleSheet.create({
         //justifyContent: "center",
         alignItems: "center",
         minWidth: "100%",
-        minHeight: 200,
+        //minHeight: 150,
         // minHeight: "100%",
         // height: "auto",
-        //paddingBottom: "35%"
-        paddingBottom: "2%"
+        //paddingBottom: "35%",
+        paddingBottom: "3%"
     },
     graph: {
         flex: 1,
@@ -182,6 +172,11 @@ const styles = StyleSheet.create({
         backgroundColor: theme.bgGraph,
         flexDirection: "row",
         minWidth: "100%",
-        //minHeight: "200%"
+        paddingTop: "0.5%",
+        paddingBottom: "0.5%",
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "black",
+        minHeight: "25%"
     }
 });
