@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatusTracker
 {
@@ -11,10 +6,10 @@ namespace StatusTracker
     {
         #region Fields
 
-        public static string databaseFile = "./data/database.db";
-        public static string workingDir = "./data";
-        public static DateTime startedAt = DateTime.UtcNow;
         public static string confFile = "./data/config.json";
+        public static string databaseFile = "./data/database.db";
+        public static DateTime startedAt = DateTime.UtcNow;
+        public static string workingDir = "./data";
 
         #endregion Fields
     }

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StatusTracker.Data.Classes
+﻿namespace StatusTracker.Data.Classes
 {
     public class Identity : DataClass
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string CookieKey { get; set; }
-        public string Salt { get; set; }
+        #region Constructors
 
-        public Identity() { }
+        public Identity()
+        { }
 
         public Identity(string email, string password, string cookieKey, string salt)
         {
@@ -22,5 +14,16 @@ namespace StatusTracker.Data.Classes
             CookieKey = cookieKey;
             Salt = salt;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string CookieKey { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Salt { get; set; }
+
+        #endregion Properties
     }
 }

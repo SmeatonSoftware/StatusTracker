@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using LiteDB.Async;
+﻿using LiteDB.Async;
 using StatusTracker.Data.Classes;
 using System;
 
@@ -7,15 +6,14 @@ namespace StatusTracker.Data
 {
     public static class DataEngineMangment
     {
-        public static DataEngine<RequestLog> requestLogEngine;
-        public static DataEngine<TargetService> targetServiceEngine;
-        public static DataEngine<PingResult> pingResultEngine;
-        public static DataEngine<Identity> identityEngine;
-        public static DataEngine<FavouriteService> favouriteServiceEngine;
-
         #region Fields
 
         public static LiteDatabaseAsync db;
+        public static DataEngine<FavouriteService> favouriteServiceEngine;
+        public static DataEngine<Identity> identityEngine;
+        public static DataEngine<PingResult> pingResultEngine;
+        public static DataEngine<RequestLog> requestLogEngine;
+        public static DataEngine<TargetService> targetServiceEngine;
 
         #endregion Fields
 

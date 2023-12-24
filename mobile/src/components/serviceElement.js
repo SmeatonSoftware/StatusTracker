@@ -1,10 +1,10 @@
 import {Component} from "react";
-import {Button, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import APIRequest from "../services/request";
 import Padd from "./padd";
 import {theme} from "../theme";
 import Authentication from "../services/authentication";
-import {Feather, FontAwesome, FontAwesome5} from "@expo/vector-icons";
+import {Feather, FontAwesome} from "@expo/vector-icons";
 
 export default class ServiceElement extends Component {
     constructor(props) {
@@ -57,11 +57,11 @@ export default class ServiceElement extends Component {
         );
     }
 
-    deleteStart(){
+    deleteStart() {
         this.setState({confirmDelete: true});
     }
 
-    deleteCancel(){
+    deleteCancel() {
         this.setState({confirmDelete: false});
     }
 
@@ -106,17 +106,17 @@ export default class ServiceElement extends Component {
         }} key={idx}><Text></Text></View>
     }
 
-    dateStrFromTicks(ticks){
+    dateStrFromTicks(ticks) {
         let ticksToMicrotime = ticks / 10000;
         let epochMicrotimeDiff = Math.abs(new Date(0, 0, 1).setFullYear(1));
         let date = new Date(ticksToMicrotime - epochMicrotimeDiff);
 
-        return date.toLocaleDateString() + " @ "+date.toLocaleTimeString();
+        return date.toLocaleDateString() + " @ " + date.toLocaleTimeString();
     }
 
     render() {
         let s = this.state.data;
-        let anyErrors = this.state.pingLog.some(x=>x == -1);
+        let anyErrors = this.state.pingLog.some(x => x == -1);
         return <View style={styles.body}>
             <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>
                 {
@@ -154,23 +154,27 @@ export default class ServiceElement extends Component {
                         minWidth: "100%"
                     }}>
                         <View style={{minWidth: "49%", alignItems: "center"}}>
-                            <TouchableHighlight onPress={x=>this.favourite()} style={styles.navBox}>
-                                    <FontAwesome name={s.isFav ? "heart" : "heart-o"} size={30} color={theme.textPrimary}/>
+                            <TouchableHighlight onPress={x => this.favourite()} style={styles.navBox}>
+                                <FontAwesome name={s.isFav ? "heart" : "heart-o"} size={30} color={theme.textPrimary}/>
                             </TouchableHighlight>
                         </View>
                         <View style={{minWidth: "2%"}}/>
                         <View style={{minWidth: "49%", alignItems: "center"}}>
                             {Authentication.Identity.Id == s.identityCreated ?
                                 this.state.confirmDelete ?
-                                    <View style={{flexDirection: "row", justifyContent: "space-evenly", minWidth: "100%"}}>
-                                        <TouchableHighlight onPress={x=>this.delete()} style={styles.navBox}>
+                                    <View style={{
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        minWidth: "100%"
+                                    }}>
+                                        <TouchableHighlight onPress={x => this.delete()} style={styles.navBox}>
                                             <Feather name="check-circle" size={30} color={theme.textPrimary}/>
                                         </TouchableHighlight>
-                                        <TouchableHighlight onPress={x=>this.deleteCancel()} style={styles.navBox}>
+                                        <TouchableHighlight onPress={x => this.deleteCancel()} style={styles.navBox}>
                                             <Feather name="x-circle" size={30} color={theme.textPrimary}/>
                                         </TouchableHighlight>
                                     </View> :
-                                    <TouchableHighlight onPress={x=>this.deleteStart()} style={styles.navBox}>
+                                    <TouchableHighlight onPress={x => this.deleteStart()} style={styles.navBox}>
                                         <FontAwesome name="trash" size={30} color={theme.textPrimary}/>
                                     </TouchableHighlight>
                                 : null
@@ -217,16 +221,16 @@ const styles = StyleSheet.create({
         borderColor: "black",
         minHeight: 30
     },
-    navText:{
+    navText: {
         color: theme.textPrimary,
         fontWeight: "bold",
         fontSize: 20
     },
-    navBoxInner:{
+    navBoxInner: {
         alignItems: "center",
         marginTop: "auto"
     },
-    navBox:{
+    navBox: {
         width: "21%",
         minHeight: "100%",
         alignItems: "center",

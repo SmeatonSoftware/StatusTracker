@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StatusTracker.Data.Classes
+﻿namespace StatusTracker.Data.Classes
 {
     public class PingResult : DataClass
     {
-        public int TargetServiceId { get; set; }
-        public bool Success { get; set; }
-        public int StatusCode { get; set; }
-        public float MS { get; set; }
+        #region Constructors
 
-        public PingResult() { }
+        public PingResult()
+        { }
 
         public PingResult(int targetServiceId, bool success, int statusCode, float mS)
         {
@@ -22,5 +14,16 @@ namespace StatusTracker.Data.Classes
             StatusCode = statusCode;
             MS = mS;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public float MS { get; set; }
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public int TargetServiceId { get; set; }
+
+        #endregion Properties
     }
 }

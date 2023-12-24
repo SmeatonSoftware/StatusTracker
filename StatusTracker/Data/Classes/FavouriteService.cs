@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StatusTracker.Data.Classes
+﻿namespace StatusTracker.Data.Classes
 {
     public class FavouriteService : DataClass
     {
-        public int targetService {  get; set; }
-        public int idenitityId {  get; set; }
+        #region Constructors
 
-        public FavouriteService() { }
+        public FavouriteService()
+        { }
 
         public FavouriteService(TargetService targetService, Identity identity)
         {
             this.targetService = targetService.Id;
             this.idenitityId = identity.Id;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public int idenitityId { get; set; }
+        public int targetService { get; set; }
+
+        #endregion Properties
     }
 }
