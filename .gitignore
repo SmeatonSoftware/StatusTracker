@@ -8,3 +8,4 @@ StatusTracker/bin
 app
 mobile/build
 mobile/app-build
+mobile/package-lock.json
