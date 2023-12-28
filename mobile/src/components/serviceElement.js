@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import APIRequest from "../services/request";
 import Padd from "./padd";
 import {theme} from "../theme";
@@ -26,7 +26,7 @@ export default class ServiceElement extends Component {
 
     async refreshLog() {
         let that = this;
-        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=50", "", "GET")
+        let r = new APIRequest("pings/recent?service=" + this.props.data.Id + "&small=true&count=30", "", "GET")
 
         await r.executeWithCallback(
             (d) => {
@@ -119,13 +119,14 @@ export default class ServiceElement extends Component {
         let anyErrors = this.state.pingLog.some(x => x == -1);
         return <View style={styles.body}>
             <Text style={{fontWeight: "bold", fontSize: 20, ...styles.text}}>
+                <Image source={{uri: s.url+"favicon.ico"}} style={{minHeight: 20, minWidth: 20}} height={20} width={20}/>
+                <Text> {s.url} </Text>
                 {
                     anyErrors ?
                         <Feather name={"x-circle"} size={20} color={theme.danger}/>
                         :
                         <FontAwesome name={"check-circle"} size={20} color={theme.success}/>
                 }
-                <Text> {s.url}</Text>
             </Text>
             <View style={{flexDirection: "row", justifyContent: "space-evenly", alignSelf: "center", minWidth: "100%"}}>
                 <Padd style={styles.padd}>

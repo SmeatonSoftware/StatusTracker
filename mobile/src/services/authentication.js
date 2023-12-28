@@ -19,11 +19,10 @@ export default class Authentication extends Component {
     });
 
     constructor(props) {
-        props = {needAuth: false, ...props};
         super(props);
-        this.props = props;
 
         this.state = {
+            needAuth: this.props.needAuth == null ? false : this.props.needAuth,
             identity: {Email: "", Password: ""}, hasAuth: null, errorText: ""
         };
     }
