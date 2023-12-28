@@ -1,4 +1,5 @@
 ﻿using System;
+using PIApp_Lib.Data;
 
 namespace StatusTracker.Data.Classes
 {

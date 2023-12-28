@@ -1,4 +1,5 @@
-﻿namespace StatusTracker.Data.Classes
+﻿using PIApp_Lib.Data;
+namespace StatusTracker.Data.Classes
 {
     public class PingResult : DataClass
     {

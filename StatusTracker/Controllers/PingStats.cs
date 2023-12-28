@@ -1,5 +1,7 @@
 ﻿using PIApp_Lib;
+using PIApp_Lib.Data;
 using StatusTracker.Data;
+using StatusTracker.Data.Classes;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +27,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+            var service = await DataEngineManagement.GetTable<TargetService>().TryFind(x => x.Id == serviceId);
 
             if (service == null)
             {
@@ -36,7 +38,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var results = await DataEngineMangment.pingResultEngine.table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x => x.Id).Limit(count).ToArrayAsync();
+            var results = await DataEngineManagement.GetTable<PingResult>().table.Query().Where(x => x.TargetServiceId == serviceId).OrderByDescending(x => x.Id).Limit(count).ToArrayAsync();
 
             results = results.Reverse().ToArray();
 

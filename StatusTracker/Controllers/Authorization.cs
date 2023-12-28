@@ -1,4 +1,5 @@
 ﻿using PIApp_Lib;
+using PIApp_Lib.Data;
 using Scrypt;
 using StatusTracker.Data;
 using StatusTracker.Data.Classes;
@@ -62,7 +63,7 @@ namespace StatusTracker.Controllers
 
             if (id != null && key != null && id.Length > 0 && key.Length > 0 && int.TryParse(id, out var _id))
             {
-                var youare = await DataEngineMangment.identityEngine.Get(_id);
+                var youare = await DataEngineManagement.GetTable<Identity>().Get(_id);
 
                 if (youare != null && encoder.Compare(key + youare.Salt, youare.CookieKey))
                 {
@@ -86,7 +87,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var youare = await DataEngineMangment.identityEngine.TryFind(x => x.Email == iam.Email);
+            var youare = await DataEngineManagement.GetTable<Identity>().TryFind(x => x.Email == iam.Email);
 
             if (youare == null)
             {
@@ -112,7 +113,7 @@ namespace StatusTracker.Controllers
 
             youare.CookieKey = encoder.Encode(iam.CookieKey + youare.Salt);
 
-            DataEngineMangment.identityEngine.Update(youare);
+            DataEngineManagement.GetTable<Identity>().Update(youare);
 
             return new ResponseState()
             {
@@ -126,7 +127,7 @@ namespace StatusTracker.Controllers
         {
             var iam = context.GetBody<Identity>();
 
-            if (await DataEngineMangment.identityEngine.TryFind(x => x.Email == iam.Email) != null)
+            if (await DataEngineManagement.GetTable<Identity>().TryFind(x => x.Email == iam.Email) != null)
             {
                 return new ResponseState()
                 {
@@ -158,7 +159,7 @@ namespace StatusTracker.Controllers
 
             var youare = new Identity(iam.Email, encoder.Encode(iam.Password + iam.Salt), encoder.Encode(iam.CookieKey + iam.Salt), iam.Salt);
 
-            await DataEngineMangment.identityEngine.Add(youare);
+            DataEngineManagement.GetTable<Identity>().Add(youare);
 
             iam.Id = youare.Id;
             iam.Password = "";

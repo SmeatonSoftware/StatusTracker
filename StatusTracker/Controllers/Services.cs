@@ -1,5 +1,7 @@
 ﻿using PIApp_Lib;
+using PIApp_Lib.Data;
 using StatusTracker.Data;
+using StatusTracker.Data.Classes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +22,7 @@ namespace StatusTracker.Controllers
 
             var delay = new TimeSpan(0, minutes, 0);
 
-            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.url == url);
+            var service = await DataEngineManagement.GetTable<TargetService>().TryFind(x => x.url == url);
             bool existingService = service != null;
 
             var iden = await Authorization.IdentityFromHeader(context);
@@ -37,12 +39,12 @@ namespace StatusTracker.Controllers
             if (!existingService)
             {
                 service = new Data.Classes.TargetService(url, delay, iden);
-                await DataEngineMangment.targetServiceEngine.Add(service);
+                DataEngineManagement.GetTable<TargetService>().Add(service);
             }
             else
             {
                 service.runFrequency = delay;
-                DataEngineMangment.targetServiceEngine.Update(service);
+                DataEngineManagement.GetTable<TargetService>().Update(service);
             }
 
             return new ResponseState()
@@ -65,7 +67,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+            var service = await DataEngineManagement.GetTable<TargetService>().TryFind(x => x.Id == serviceId);
 
             if (service == null)
             {
@@ -87,8 +89,8 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            await DataEngineMangment.pingResultEngine.table.DeleteManyAsync(x => x.TargetServiceId == serviceId);
-            await DataEngineMangment.targetServiceEngine.Remove(serviceId);
+            await DataEngineManagement.GetTable<PingResult>().table.DeleteManyAsync(x => x.TargetServiceId == serviceId);
+            await DataEngineManagement.GetTable<TargetService>().Remove(serviceId);
 
             return new ResponseState()
             {
@@ -100,9 +102,9 @@ namespace StatusTracker.Controllers
         {
             var iden = await Authorization.IdentityFromHeader(context);
 
-            var favs = (await DataEngineMangment.favouriteServiceEngine.table.FindAllAsync());
+            var favs = (await DataEngineManagement.GetTable<FavouriteService>().table.FindAllAsync());
 
-            var results = await DataEngineMangment.targetServiceEngine.table.FindAllAsync();
+            var results = await DataEngineManagement.GetTable<TargetService>().table.FindAllAsync();
 
             results = results.OrderByDescending(x => favs.Count(y => y.targetService == x.Id)).ToArray();
 
@@ -137,9 +139,9 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var favs = (await DataEngineMangment.favouriteServiceEngine.Search(x => x.idenitityId == iden.Id)).Select(x => x.targetService).ToArray();
+            var favs = (await DataEngineManagement.GetTable<FavouriteService>().Search(x => x.idenitityId == iden.Id)).Select(x => x.targetService).ToArray();
 
-            var servs = await DataEngineMangment.targetServiceEngine.Search(x => x.identityCreated == iden.Id || favs.Contains(x.Id));
+            var servs = await DataEngineManagement.GetTable<TargetService>().Search(x => x.identityCreated == iden.Id || favs.Contains(x.Id));
 
             foreach (var item in servs)
             {
@@ -166,7 +168,7 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var service = await DataEngineMangment.targetServiceEngine.TryFind(x => x.Id == serviceId);
+            var service = await DataEngineManagement.GetTable<TargetService>().TryFind(x => x.Id == serviceId);
 
             if (service == null)
             {
@@ -188,15 +190,15 @@ namespace StatusTracker.Controllers
                 };
             }
 
-            var fav = await DataEngineMangment.favouriteServiceEngine.TryFind(x => x.targetService == serviceId);
+            var fav = await DataEngineManagement.GetTable<FavouriteService>().TryFind(x => x.targetService == serviceId);
 
             if (fav != null)
             {
-                await DataEngineMangment.favouriteServiceEngine.Remove(fav.Id);
+                await DataEngineManagement.GetTable<FavouriteService>().Remove(fav.Id);
             }
             else
             {
-                await DataEngineMangment.favouriteServiceEngine.Add(new Data.Classes.FavouriteService(service, iden));
+                DataEngineManagement.GetTable<FavouriteService>().Add(new Data.Classes.FavouriteService(service, iden));
             }
 
             return new ResponseState()

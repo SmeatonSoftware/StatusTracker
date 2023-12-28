@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using PIApp_Lib.Data;
 
 namespace StatusTracker.Data.Classes
 {

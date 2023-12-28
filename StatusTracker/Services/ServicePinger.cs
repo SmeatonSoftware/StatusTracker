@@ -1,4 +1,5 @@
-﻿using StatusTracker.Data;
+﻿using PIApp_Lib.Data;
+using StatusTracker.Data;
 using StatusTracker.Data.Classes;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace StatusTracker.Services
 
         public static async void PingAll()
         {
-            var services = await DataEngineMangment.targetServiceEngine.Search(x => DateTime.UtcNow > x.lastRun + x.runFrequency);
+            var services = await DataEngineManagement.GetTable<TargetService>().Search(x => DateTime.UtcNow > x.lastRun + x.runFrequency);
 
             var pingResults = new List<PingResult>();
             var s = new Stopwatch();
@@ -44,14 +45,14 @@ namespace StatusTracker.Services
 
                     service.lastRun = DateTime.UtcNow;
 
-                    DataEngineMangment.targetServiceEngine.Update(service);
+                    DataEngineManagement.GetTable<TargetService>().Update(service);
                     pingResults.Add(pingResult);
                 }
             }
 
             //Console.WriteLine($"Pinged {services.Length} Services");
 
-            await DataEngineMangment.pingResultEngine.table.InsertBulkAsync(pingResults);
+            await DataEngineManagement.GetTable<PingResult>().table.InsertBulkAsync(pingResults);
         }
 
         public static void StartPingThreadLoop()

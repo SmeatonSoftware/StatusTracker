@@ -1,4 +1,5 @@
 ﻿using PIApp_Lib;
+using PIApp_Lib.Data;
 using StatusTracker.Data;
 using StatusTracker.Data.Classes;
 using System.Net;
@@ -12,7 +13,7 @@ namespace StatusTracker.Controllers
 
         public static async Task<ResponseState> GetLog(RequestContext context)
         {
-            var results = await DataEngineMangment.requestLogEngine.table.Query().OrderByDescending(x => x.Id).Limit(100).ToArrayAsync();
+            var results = await DataEngineManagement.GetTable<RequestLog>().table.Query().OrderByDescending(x => x.Id).Limit(100).ToArrayAsync();
 
             return new ResponseState()
             {
@@ -30,7 +31,7 @@ namespace StatusTracker.Controllers
 
             var log = new RequestLog(context, ms, cacheHit);
 
-            DataEngineMangment.requestLogEngine.Add(log);
+            DataEngineManagement.GetTable<RequestLog>().Add(log);
         }
 
         #endregion Methods

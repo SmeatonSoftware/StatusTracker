@@ -1,6 +1,7 @@
 ﻿using PIApp_Lib;
+using PIApp_Lib.Data;
 using StatusTracker.Controllers;
-using StatusTracker.Data;
+using StatusTracker.Data.Classes;
 using System;
 using System.IO;
 
@@ -24,7 +25,6 @@ namespace StatusTracker
             Listener.log = Logger.Log;
             //Listener.middlewares.Add(Logger.Log);
 
-            DataEngineMangment.Init();
             PIApp_Lib.Listener.Init();
 
             Services.ServicePinger.StartPingThreadLoop();
@@ -33,6 +33,7 @@ namespace StatusTracker
         private static void Main(string[] args)
         {
             RegisterEndpoints();
+            RegisterTables();
             Init();
 
             Console.WriteLine("Type 'S' to Stop");
@@ -48,6 +49,16 @@ namespace StatusTracker
                         break;
                 }
             }
+        }
+
+        private static void RegisterTables()
+        {
+            DataEngineManagement.Init();
+            DataEngineManagement.SummonTable<FavouriteService>();
+            DataEngineManagement.SummonTable<Identity>();
+            DataEngineManagement.SummonTable<PingResult>();
+            DataEngineManagement.SummonTable<RequestLog>();
+            DataEngineManagement.SummonTable<TargetService>();
         }
 
         private static void RegisterEndpoints()
