@@ -25,7 +25,7 @@ namespace StatusTracker
             Listener.log = Logger.Log;
             //Listener.middlewares.Add(Logger.Log);
 
-            PIApp_Lib.Listener.Init();
+            PIApp_Lib.Listener.Init(8102);
 
             Services.ServicePinger.StartPingThreadLoop();
         }
