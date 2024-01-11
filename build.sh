@@ -4,6 +4,8 @@ echo "Building API Server For C# Mono"
 
 rm -r -f ./app
 
+#---------------------------------------------------------
+
 dotnet restore "StatusTracker/StatusTracker.csproj"
 dotnet build "StatusTracker/StatusTracker.csproj" -c Release 
 
@@ -11,25 +13,42 @@ xbuild /property:Configuration=Release ./StatusTracker/StatusTracker.csproj
 
 cp -r ./StatusTracker/bin/Release/ ./app/
 
-echo "Building App For Web + Android"
+cd ./app
+find . -name "*.xml" -type f|xargs rm -f
+cd ..
+
+#---------------------------------------------------------
+
+echo "Building Web Site"
 
 cd ./mobile
-wsl bash ./build.sh
 
-sleep 10s
+npm i
 
-echo "Copying artifacts to /app"
-
+npx expo export:web
 cp -r ./web-build/ ../app/site/
-cp -r ./app-build/ ../app/site/builds/
-
-#echo "Created app.zip"
-#7z a app.zip ./app
-
-echo "Cleaning Up";
 rm -r -f ./web-build
-rm -r -f ./app-build
 
-echo "Finished Build!"
+echo "Built Website"
+
+#---------------------------------------------------------
+
+echo "Press Any Key To Build Android App"
+read
+
+echo "Building Android App"
+
+mkdir mobile-build
+
+npx eas build --platform android --profile production
+artifact=$(npx eas build:list | grep -o 'Artifact .*' | cut -d':' -f2 | head -1)
+
+echo "https:$artifact"
+
+curl -Lo "mobile-build/android.apk" "https:$artifact"
+cp -r ./mobile-build/ ../app/mobile/
+rm -r -f ./mobile-build
+
+echo "Built Android"
 
 read
